@@ -11,6 +11,10 @@ const NAME_TEXTFIELD_BOXPERROW = 32
 const NAME_TEXTFIELD_NUMOFROW = 2
 const SMALL_BOX_WIDTH = 4.5
 const SMALL_BOX_HEIGHT = 4.5
+const MEDIUM_BOX_WIDTH = 36
+const MEDIUM_BOX_HEIGHT = 8
+const LARGE_BOX_WIDTH = 99
+const LARGE_BOX_HEIGHT = 8
 const SMALL_BOX_TEXT_INSET_X = 1
 const SMALL_BOX_TEXT_INSET_Y = 1
 const SMALL_BOX_TEXT_FONTSIZE = 7.7
@@ -55,13 +59,25 @@ function rect(rectX, rectY, width, height, fillYellow) {
     }
 }
 
+
+// PRE-TITLE
+text(99.62, 1.18, "JADUAL", "helvetica", "normal", 5)
+text(97.89, 3.68, "(Peraturan 2)", "helvetica", "normal", 5)
+text(100.64, 6.18, "Borang", "helvetica", "normal", 5)
+text(97.89, 8.67, "(Peraturan 2)", "helvetica", "normal", 5)
+text(72.68, 11.17, "AKTA PENCEGAHAN DAN PENGAWALAN PENYAKIT BERJANGKIT 1988", "helvetica", "normal", 5)
+text(48.08, 13.67, "PERATURAN-PERATURAN PENCEGAHAN DAN PENGAWALAN PENYAKIT BERJANGKIT (BORANG NOTIS (PINDAAN) 2011", "helvetica", "normal", 5)
+text(169.77, 11.17, "Borang Notis: Rev/2010", "helvetica", "normal", 5)
+text(169.77, 13.67, "No. Siri:", "helvetica", "normal", 5)
+
+
 // TITLE
-text(49.49, 15.75, "NOTIFIKASI PENYAKIT BERJANGKIT YANG PERLU DILAPORKAN",
+text(49.49, 18.5, "NOTIFIKASI PENYAKIT BERJANGKIT YANG PERLU DILAPORKAN",
     "helvetica", "bold", 9.8)
 
 
 // SUBTITLE
-text(64.64, 21.19, "(Seksyen 10, Akta Pencegahan Dan Pengawalan Penyakit Berjangkit 1988)", 
+text(64.64, 22.5, "(Seksyen 10, Akta Pencegahan Dan Pengawalan Penyakit Berjangkit 1988)", 
     "helvetica", "normal", 7)
 
 
@@ -247,83 +263,111 @@ for (let i=0; i<15; i++) {
 
 
 // 8TH RECT
-rect(BIG_RECT_X, 223.72, BIG_RECT_WIDTH, 7, true)
+rect(BIG_RECT_X, 223.72, BIG_RECT_WIDTH, 3, true)
 // Section-1 Title
-text(8, 224.5, "Selain dari notifikasi bertulis, penyakit berikut perlu dinotifikasi melalui telefon dalam tempoh 24 jam iaitu:- Poliomielitis Akut, Kolera, Demam Denggi, Diptheria,", "helvetica", "bold", 6.9)
-text(8, 227.5, "Keracunan Makanan, Plague, Rabies dan Demam Kuning.", "helvetica", "bold", 6.9)
+text(8, 224.5, "Selain dari notifikasi bertulis, penyakit berikut perlu dinotifikasi melalui telefon dalam tempoh 24 jam iaitu:- Poliomielitis Akut, Kolera, Demam Denggi, Diptheria, Keracunan Makanan, Plague, Rabies dan Demam Kuning.", "helvetica", "bold", 5)
+// text(8, 227.5, "Keracunan Makanan, Plague, Rabies dan Demam Kuning.", "helvetica", "bold", 5)
 
 
 // 9TH RECT
-rect(BIG_RECT_X, 230.72, BIG_RECT_WIDTH/3, 16, false)
-rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 230.72, BIG_RECT_WIDTH/3, 16, false)
-rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 230.72, BIG_RECT_WIDTH/3, 16, false)
+rect(BIG_RECT_X, 226.72, BIG_RECT_WIDTH/3, 16, false)
+rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 226.72, BIG_RECT_WIDTH/3, 16, false)
+rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 226.72, BIG_RECT_WIDTH/3, 16, false)
 // 1st-third
-text(10.43, 231.61, "11. Cara Pengesanan Kes:", "helvetica", "normal", 6.9)
-createSmallBox(13.98, 235.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(19.02, 235.8, "Kes", "helvetica", "normal", 6.9)
-createSmallBox(31.93, 235.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(36.97, 235.8, "Kontak", "helvetica", "normal", 6.9)
-createSmallBox(51.02, 235.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(55.89, 235.8, "FOMEMA", "helvetica", "normal", 6.9)
-createSmallBox(13.98, 240.88, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(19.02, 242.01, "Ujian Saringan ______________________", "helvetica", "normal", 6.9)
+text(10.43, 227.61, "11. Cara Pengesanan Kes:", "helvetica", "normal", 6.9)
+createSmallBox(13.98, 231.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(19.02, 231.8, "Kes", "helvetica", "normal", 6.9)
+createSmallBox(31.93, 231.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(36.97, 231.8, "Kontak", "helvetica", "normal", 6.9)
+createSmallBox(51.02, 231.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(55.89, 231.8, "FOMEMA", "helvetica", "normal", 6.9)
+createSmallBox(13.98, 236.88, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(19.02, 238.01, "Ujian Saringan ______________________", "helvetica", "normal", 6.9)
 // 2nd-third
-text(73.84, 231.61, "12. Status Pesakit:", "helvetica", "normal", 6.9)
-createSmallBox(77.75, 235.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(82.79, 235.8, "Hidup", "helvetica", "normal", 6.9)
-createSmallBox(77.75, 240.88, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(82.79, 242.01, "Mati", "helvetica", "normal", 6.9)
-createSmallBox(90.21, 240.88, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//92.21(-35.9);78.02(+162.86)
-text(101.22, 241.61, "-", "helvetica", "normal", 6.9)
-createSmallBox(103.5, 240.88, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(114.68, 241.61, "-", "helvetica", "normal", 6.9)
-createSmallBox(117.13, 240.88, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(73.84, 227.61, "12. Status Pesakit:", "helvetica", "normal", 6.9)
+createSmallBox(77.75, 231.01, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(82.79, 231.8, "Hidup", "helvetica", "normal", 6.9)
+createSmallBox(77.75, 236.88, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(82.79, 238.01, "Mati", "helvetica", "normal", 6.9)
+createSmallBox(90.21, 236.88, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//92.21(-35.9);78.02(+162.86)
+text(101.22, 237.61, "-", "helvetica", "normal", 6.9)
+createSmallBox(103.5, 236.88, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(114.68, 237.61, "-", "helvetica", "normal", 6.9)
+createSmallBox(117.13, 236.88, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
 // 3rd-third
-text(140.37, 231.61, "13. Tarikh Onset:", "helvetica", "normal", 6.9)
-createSmallBox(144.26, 235.01, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
-text(155.27, 235.74, "-", "helvetica", "normal", 6.9)
-createSmallBox(157.55, 235.01, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(168.73, 235.74, "-", "helvetica", "normal", 6.9)
-createSmallBox(171.18, 235.01, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(140.37, 227.61, "13. Tarikh Onset:", "helvetica", "normal", 6.9)
+createSmallBox(144.26, 231.01, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
+text(155.27, 231.74, "-", "helvetica", "normal", 6.9)
+createSmallBox(157.55, 231.01, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(168.73, 231.74, "-", "helvetica", "normal", 6.9)
+createSmallBox(171.18, 231.01, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
 
 
 // 10TH RECT
-rect(BIG_RECT_X, 246.72, BIG_RECT_WIDTH/3, 23, false)
-rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 246.72, BIG_RECT_WIDTH/3, 23, false)
-rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 246.72, BIG_RECT_WIDTH/3, 23, false)
+rect(BIG_RECT_X, 242.72, BIG_RECT_WIDTH/3, 23, false)
+rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
+rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
 // 1st-third
-text(10.43, 247.85, "14. Ujian Makmal:", "helvetica", "normal", 6.9)
-text(14.53, 252.14, "Nama Ujian: (i)_____________________", "helvetica", "normal", 6.9)
-text(14.53, 256.5, "(ii)_______________ (iii)________________", "helvetica", "normal", 6.9)
-text(14.53, 261.5, "Tarikh Sampel Diambil:", "helvetica", "normal", 6.9)
-createSmallBox(13.98, 264.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//13.98(-130.28);265.35(+30.34)
-text(24.99, 265.08, "-", "helvetica", "normal", 6.9)
-createSmallBox(27.27, 264.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(38.45, 265.08, "-", "helvetica", "normal", 6.9)
-createSmallBox(40.9, 264.35, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(10.43, 243.85, "14. Ujian Makmal:", "helvetica", "normal", 6.9)
+text(14.53, 248.14, "Nama Ujian: (i)_____________________", "helvetica", "normal", 6.9)
+text(14.53, 252.5, "(ii)_______________ (iii)________________", "helvetica", "normal", 6.9)
+text(14.53, 257.5, "Tarikh Sampel Diambil:", "helvetica", "normal", 6.9)
+createSmallBox(13.98, 260.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//13.98(-130.28);265.35(+30.34)
+text(24.99, 261.08, "-", "helvetica", "normal", 6.9)
+createSmallBox(27.27, 260.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(38.45, 261.08, "-", "helvetica", "normal", 6.9)
+createSmallBox(40.9, 260.35, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
 // 2nd-third
-text(73.84, 247.85, "15. Keputusan Ujian Makmal:", "helvetica", "normal", 6.9)
-createSmallBox(77.75, 251.61, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(86.28, 253.14, "Positif (_____________________________)", "helvetica", "normal", 6.9)
-createSmallBox(77.75, 256.84, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(86.28, 258.5, "Negatif", "helvetica", "normal", 6.9)
-createSmallBox(77.75, 262, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(86.28, 263.8, "Belum Siap", "helvetica", "normal", 6.9)
+text(73.84, 243.85, "15. Keputusan Ujian Makmal:", "helvetica", "normal", 6.9)
+createSmallBox(77.75, 247.61, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(86.28, 249.14, "Positif (_____________________________)", "helvetica", "normal", 6.9)
+createSmallBox(77.75, 252.84, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(86.28, 254.5, "Negatif", "helvetica", "normal", 6.9)
+createSmallBox(77.75, 258, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(86.28, 259.8, "Belum Siap", "helvetica", "normal", 6.9)
 // 3rd-third
-text(140.37, 247.6, "16. Status Diagnosis:", "helvetica", "normal", 6.9)
-createSmallBox(144.43, 250.61, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(151.31, 251.23, "Sementara (Provisional/Suspected)", "helvetica", "normal", 6.9)
-createSmallBox(144.43, 255.84, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(151.31, 256.59, "Disahkan (Confirmed)", "helvetica", "normal", 6.9)
-text(144.43, 261.5, "Tarikh Diagnosis", "helvetica", "normal", 6.9)
-createSmallBox(144.26, 264.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
-text(155.27, 265.08, "-", "helvetica", "normal", 6.9)
-createSmallBox(157.55, 264.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(168.73, 265.08, "-", "helvetica", "normal", 6.9)
-createSmallBox(171.18, 264.35, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(140.37, 243.6, "16. Status Diagnosis:", "helvetica", "normal", 6.9)
+createSmallBox(144.43, 246.61, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(151.31, 247.23, "Sementara (Provisional/Suspected)", "helvetica", "normal", 6.9)
+createSmallBox(144.43, 251.84, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(151.31, 252.59, "Disahkan (Confirmed)", "helvetica", "normal", 6.9)
+text(144.43, 257.5, "Tarikh Diagnosis", "helvetica", "normal", 6.9)
+createSmallBox(144.26, 260.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
+text(155.27, 261.08, "-", "helvetica", "normal", 6.9)
+createSmallBox(157.55, 260.35, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(168.73, 261.08, "-", "helvetica", "normal", 6.9)
+createSmallBox(171.18, 260.35, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
 
 
+// 11TH RECT
+rect(BIG_RECT_X, 265.72, BIG_RECT_WIDTH, 11, false)
+text(10.43, 268.15, "17. Maklumat Klinikal", "helvetica", "normal", 6.9)
+text(14.43, 272.05, "  Yang Relevan:", "helvetica", "normal", 6.9)
+createSmallBox(36.41, 267.49, 1, 1, LARGE_BOX_WIDTH, LARGE_BOX_HEIGHT)
+text(140.13, 268.15, "18. Komen:", "helvetica", "normal", 6.9)
+createSmallBox(153.92, 267.49, 1, 1, MEDIUM_BOX_WIDTH, MEDIUM_BOX_HEIGHT)
 
+
+// 12TH RECT
+rect(BIG_RECT_X, 276.72, BIG_RECT_WIDTH, 3.45, true)
+// Section-1 Title
+text(6.74, 277.2, "  C. MAKLUMAT PEMBERITAHU", "helvetica", "normal", 6)
+
+
+// 13TH RECT
+rect(BIG_RECT_X, 280.17, BIG_RECT_WIDTH, 16, false)
+text(10.43, 282.17, "19. Nama Pengamal Perubatan:", "helvetica", "normal", 6.9)
+createSmallBox(55.51, 281.17, 1, 23, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(10.43, 287.17, "20. Nama Hospital / Klinik dan Alamat:", "helvetica", "normal", 6.9)
+createSmallBox(55.51, 286.17, 1, 23, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(10.43, 292.17, "21. Tarikh Pemberitahuan:", "helvetica", "normal", 6.9)
+createSmallBox(55.51, 291.17, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//55.51(-88.75);291.17(+30.82)
+text(66.52, 291.9, "-", "helvetica", "normal", 6.9)
+createSmallBox(68.8, 291.17, 1, 2, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(79.98, 291.9, "-", "helvetica", "normal", 6.9)
+createSmallBox(82.43, 291.17, 1, 4, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+text(161, 289, "…………………………………………", "helvetica", "normal", 6.9)
+text(161, 292, "Tandatangan Pengamal Perubatan", "helvetica", "normal", 6.9)
 
 
 // Output
