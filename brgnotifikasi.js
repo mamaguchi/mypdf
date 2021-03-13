@@ -157,11 +157,11 @@ const ALAMAT_PEJABAT_Y = 119.4
 const ALAMAT_PEJABAT_NUMOFROW = 2
 const ALAMAT_PEJABAT_BOXPERROW = 17
 // 7TH RECT
-const DISEASE_BASE_Y = 136.66
-const DISEASE_BASE_X1 = 13.98
-const DISEASE_BASE_X2 = 79.23
-const DISEASE_BASE_X3 = 141.74
-let DISEASE_BASE_X_ARR = [DISEASE_BASE_X1,DISEASE_BASE_X2,DISEASE_BASE_X3]
+const DISEASE_BOX_BASE_Y = 136.66
+const DISEASE_BOX_BASE_X1 = 13.98
+const DISEASE_BOX_BASE_X2 = 79.23
+const DISEASE_BOX_BASE_X3 = 141.74
+let DISEASE_BOX_BASE_X_ARR = [DISEASE_BOX_BASE_X1,DISEASE_BOX_BASE_X2,DISEASE_BOX_BASE_X3]
 // 9TH RECT
 const KES_X = 13.98
 const KES_Y = 231.01
@@ -286,6 +286,30 @@ const TARIKH_NOTIFIKASI_YR_X = 82.43
 const TARIKH_NOTIFIKASI_YR_Y = 291.17
 const TARIKH_NOTIFIKASI_YR_NUMOFROW = 1
 const TARIKH_NOTIFIKASI_YR_BOXPERROW = 4
+
+
+/* ==========================
+    TEXT FIELD CONFIGURATION
+   ========================== */
+
+const WAD_X = 88.32
+const WAD_Y = 62.43
+const PEKERJAAN_X = 110.76
+const PEKERJAAN_Y = 96.49
+const DISEASE_TXT_BASE_Y = 137.47
+const DISEASE_TXT_BASE_X1 = 20.50
+const DISEASE_TXT_BASE_X2 = 84.53
+const DISEASE_TXT_BASE_X3 = 147.59
+const DISEASE_BOX_BASE_DISPL_Y = 5.74
+const DISEASE_TXT_BASE_DISPL_Y = 5.86
+const OTHER_DISEASE_X = DISEASE_TXT_BASE_X3
+const OTHER_DISEASE_Y = DISEASE_TXT_BASE_Y + (DISEASE_TXT_BASE_DISPL_Y*14)
+const UJIAN_SARINGAN_NAME_X = 19.02
+const UJIAN_SARINGAN_NAME_Y = 238.01
+const UJIAN_MAKMAL_NAME_X = 14.53
+const UJIAN_MAKMAL_NAME_Y = 248.14
+const TANDATANGAN_X = 161
+const TANDATANGAN_Y = NAMA_OFFICER_Y
 
 
 /* ================
@@ -426,6 +450,12 @@ function setNoDaftarHospKlinik(val) {
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
             SMALL_BOX_TEXT_INSET_X, SMALL_BOX_TEXT_INSET_Y,
             val, "bold")
+}
+
+function setNamaWad(val) {
+    let txt = val.slice(0, 12).toUpperCase()
+    let textX = WAD_X + 13.5
+    text(textX, WAD_Y, txt, "helvetica", "bold", 6.9)
 }
 
 function setTarikhAdm(val) {
@@ -590,6 +620,12 @@ function checkTelRumah() {
             "X", "bold")
 }
 
+function setPekerjaan(val) {
+    let txt = val.slice(0, 30).toUpperCase()
+    let textX = PEKERJAAN_X + 15
+    text(textX, PEKERJAAN_Y, txt, "helvetica", "bold", 6.9)
+}
+
 function checkTelBimbit() {
     textBox(TEL_BIMBIT_X, TEL_BIMBIT_Y, 
             TEL_BIMBIT_NUMOFROW, TEL_BIMBIT_BOXPERROW,   
@@ -639,15 +675,21 @@ function setAlamatPejabat(val) {
 
 function checkDisease(index) {
     let colInd = index%3
-    let textX = DISEASE_BASE_X_ARR[colInd]
+    let textX = DISEASE_BOX_BASE_X_ARR[colInd]
 
     let boxDisplY = 5.74 * (Math.floor(index/3))
-    let textY = DISEASE_BASE_Y + boxDisplY
+    let textY = DISEASE_BOX_BASE_Y + boxDisplY
 
     textBox(textX, textY, 1, 1,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
             SMALL_BOX_TEXT_INSET_X, SMALL_BOX_TEXT_INSET_Y, 
             "X", "bold")
+}
+
+function setOtherDisease(val) {
+    let txt = val.slice(0, 18).toUpperCase()
+    let textX = OTHER_DISEASE_X + 29
+    text(textX, OTHER_DISEASE_Y, txt, "helvetica", "bold", 6.9)
 }
 
 function checkKes() {
@@ -680,6 +722,12 @@ function checkUjianSaringan() {
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
             SMALL_BOX_TEXT_INSET_X, SMALL_BOX_TEXT_INSET_Y,
             "X", "bold")
+}
+
+function setUjianSaringan(val) {
+    let txt = val.slice(0, 15).toUpperCase()
+    let textX = UJIAN_SARINGAN_NAME_X + 17
+    text(textX, UJIAN_SARINGAN_NAME_Y, txt, "helvetica", "bold", 6.9)
 }
 
 function checkStatusHidup() {
@@ -738,6 +786,12 @@ function setTarikhOnset(val) {
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
             SMALL_BOX_TEXT_INSET_X, SMALL_BOX_TEXT_INSET_Y,
             date[0], "bold")
+}
+
+function setUjianMakmal(val) {
+    let txt = val.slice(0, 15).toUpperCase()
+    let textX = UJIAN_MAKMAL_NAME_X + 17
+    text(textX, UJIAN_MAKMAL_NAME_Y, txt, "helvetica", "bold", 6.9)
 }
 
 function setTarikhSampling(val) {
@@ -875,6 +929,10 @@ function setTarikhNotifikasi(val) {
             date[0], "bold")
 }
 
+function setTandatangan(val) {
+    const textX = TANDATANGAN_X 
+    text(textX, TANDATANGAN_Y, val, "helvetica", "bold", 6.9)
+}
 
 
 
@@ -935,7 +993,7 @@ text(14.58, 45.02, "(Jika belum mempunyai Kad Pengenalan diri)", "helvetica", "n
 
 
 /* 
-    3RD RECT - ID, Date of Admission
+    3RD RECT - ID, No Daftar Hosp/Klinik, Wad, Date of Admission
 */
 rect(BIG_RECT_X, 51.30, BIG_RECT_WIDTH, 17, false)
 // Kad pengenalan
@@ -955,7 +1013,7 @@ text(13, 62.43, "No. Daftar Hospital / Klinik", "helvetica", "normal", 6.9)
 createBox(NO_DAFTAR_HOSP_KLINIK_X, NO_DAFTAR_HOSP_KLINIK_Y, 
         NO_DAFTAR_HOSP_KLINIK_NUMOFROW, NO_DAFTAR_HOSP_KLINIK_BOXPERROW, 
         SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(88.32, 62.43, "Nama Wad:_______________", "helvetica", "normal", 6.9)
+text(WAD_X, WAD_Y, "Nama Wad:_______________", "helvetica", "normal", 6.9)
 text(124.22, 62.43, "Tarikh Masuk Wad:", "helvetica", "normal", 6.9)
 createBox(TARIKH_ADM_DAY_X, TARIKH_ADM_DAY_Y, 
         TARIKH_ADM_DAY_NUMOFROW, TARIKH_ADM_DAY_BOXPERROW, 
@@ -1049,7 +1107,7 @@ createBox(UMUR_HARI_X, UMUR_HARI_Y,
          UMUR_HARI_NUMOFROW, UMUR_HARI_BOXPERROW, 
          SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
 text(178.79, 88.15, "Hari", "helvetica", "normal", 6.9)
-text(110.76, 96.49, "7. Pekerjaan:____________________________________________", "helvetica", "normal", 6.9)
+text(PEKERJAAN_X, PEKERJAAN_Y, "7. Pekerjaan:____________________________________________", "helvetica", "normal", 6.9)
 text(115.99, 100.6, "(Jika tidak bekerja, nyatakan status diri)", "helvetica", "normal", 6.9)
 
 
@@ -1196,16 +1254,16 @@ let diseasesIndex = [
 ]
 
 for (let i=0; i<15; i++) {
-    let boxDisplY = 5.74 * i 
-    let textDisplY = 5.86 * i
+    let boxDisplY = DISEASE_BOX_BASE_DISPL_Y * i 
+    let textDisplY = DISEASE_TXT_BASE_DISPL_Y * i
     let d = i * 3 
 
-    createBox(DISEASE_BASE_X1, DISEASE_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-    text(20.50, 137.47+textDisplY, diseases[d], "helvetica", "normal", 6.9)
-    createBox(DISEASE_BASE_X2, DISEASE_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-    text(84.53, 137.47+textDisplY, diseases[d+1], "helvetica", "normal", 6.9)
-    createBox(DISEASE_BASE_X3, DISEASE_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-    text(147.59, 137.47+textDisplY, diseases[d+2], "helvetica", "normal", 6.9)
+    createBox(DISEASE_BOX_BASE_X1, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+    text(DISEASE_TXT_BASE_X1, DISEASE_TXT_BASE_Y+textDisplY, diseases[d], "helvetica", "normal", 6.9)
+    createBox(DISEASE_BOX_BASE_X2, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+    text(DISEASE_TXT_BASE_X2, DISEASE_TXT_BASE_Y+textDisplY, diseases[d+1], "helvetica", "normal", 6.9)
+    createBox(DISEASE_BOX_BASE_X3, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+    text(DISEASE_TXT_BASE_X3, DISEASE_TXT_BASE_Y+textDisplY, diseases[d+2], "helvetica", "normal", 6.9)
 }
 
 
@@ -1241,7 +1299,7 @@ text(55.89, 231.8, "FOMEMA", "helvetica", "normal", 6.9)
 createBox(UJIAN_SARINGAN_X, UJIAN_SARINGAN_Y, 
         UJIAN_SARINGAN_NUMOFROW, UJIAN_SARINGAN_BOXPERROW, 
         SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(19.02, 238.01, "Ujian Saringan ______________________", "helvetica", "normal", 6.9)
+text(UJIAN_SARINGAN_NAME_X, UJIAN_SARINGAN_NAME_Y, "Ujian Saringan ______________________", "helvetica", "normal", 6.9)
 // 2nd-third
 text(73.84, 227.61, "12. Status Pesakit:", "helvetica", "normal", 6.9)
 createBox(STATUS_HIDUP_X, STATUS_HIDUP_Y, 
@@ -1286,7 +1344,7 @@ rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
 rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
 // 1st-third
 text(10.43, 243.85, "14. Ujian Makmal:", "helvetica", "normal", 6.9)
-text(14.53, 248.14, "Nama Ujian: (i)_____________________", "helvetica", "normal", 6.9)
+text(UJIAN_MAKMAL_NAME_X, UJIAN_MAKMAL_NAME_Y, "Nama Ujian: (i)_____________________", "helvetica", "normal", 6.9)
 text(14.53, 252.5, "(ii)_______________ (iii)________________", "helvetica", "normal", 6.9)
 text(14.53, 257.5, "Tarikh Sampel Diambil:", "helvetica", "normal", 6.9)
 createBox(TARIKH_SAMPLING_DAY_X, TARIKH_SAMPLING_DAY_Y, 
@@ -1385,8 +1443,8 @@ text(79.98, 291.9, "-", "helvetica", "normal", 6.9)
 createBox(TARIKH_NOTIFIKASI_YR_X, TARIKH_NOTIFIKASI_YR_Y, 
         TARIKH_NOTIFIKASI_YR_NUMOFROW, TARIKH_NOTIFIKASI_YR_BOXPERROW, 
         SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(161, 289, "…………………………………………", "helvetica", "normal", 6.9)
-text(161, 292, "Tandatangan Pengamal Perubatan", "helvetica", "normal", 6.9)
+text(TANDATANGAN_X, 289, "…………………………………………", "helvetica", "normal", 6.9)
+text(TANDATANGAN_X, 292, "Tandatangan Pengamal Perubatan", "helvetica", "normal", 6.9)
 
 
 /* ===================================
@@ -1396,6 +1454,7 @@ text(161, 292, "Tandatangan Pengamal Perubatan", "helvetica", "normal", 6.9)
 setNama("chow hsien lung")
 setID("880601105149")
 checkIDSendiri()
+setNamaWad('Kenanga 1')
 setTarikhAdm('2021-03-13')
 checkWarganegaraYa()
 setKeturunan('cina')
@@ -1403,15 +1462,19 @@ checkJantinaLelaki()
 setTarikhLahir('1988-06-01')
 setUmur('32')
 checkUmurTahun()
+setPekerjaan('Doctor')
 checkTelBimbit()
 setTelNumber('0163184120')
 setAlamatKediaman('C2,Kuarters Klinik Kesihatan Jengka 2, Maran, Pahang')
 setAlamatPejabat('C2,Kuarters Klinik Kesihatan Jengka 2, Maran, Pahang')
 checkDisease(44)
+setOtherDisease('COVID-19')
 checkKes()
 checkUjianSaringan()
+setUjianSaringan('RTK-Ag')
 checkStatusHidup()
 setTarikhOnset('2021-03-10')
+setUjianMakmal('RT-PCR')
 setTarikhSampling('2021-03-11')
 checkUjianPositif()
 checkDiagDisahkan()
@@ -1420,7 +1483,7 @@ setMaklumatKlinikal('fever, cough 2/7. Kes Kluster Kilang Alps. fever, cough 2/7
 setNamaOfficer('Dr Chow Hsien Lung')
 setNamaHospKlinik('PKD Maran')
 setTarikhNotifikasi('2021-03-13')
-
+setTandatangan('Dr Chow Hsien Lung\nMPM: 64650\nPKD Maran')
 
 
 
