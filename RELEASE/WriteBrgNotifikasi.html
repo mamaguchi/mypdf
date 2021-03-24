@@ -1,7 +1,138 @@
-const { jsPDF } = require("jspdf"); 
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <script src="qrcode.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha512-ZDSPMa/JM1D+7kdg2x3BsruQ6T/JpJo3jWDWkCZsP+5yVyp1KfESqLI+7RqB5k24F7p2cV7i2YHh/890y6P6Sw==" crossorigin="anonymous"></script> -->
+  <script src="qrcode.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <style>
+    .center {
+      margin: auto;
+      text-align: left;
+      width: 50%;
+      border: 3px solid lightblue;
+      padding: 10px;
+      font-family: Helvetica
+    }  
+  </style>
+</head>
+<body>
 
-let doc = new jsPDF();
+  <div class="center">
 
+  <form id="form" onsubmit="event.preventDefault();">
+    <label for="name"><b>Nama</b></label><br>
+    <input autofocus type="text" id="name" name="name" required><br><br>
+
+    <label for="id"><b>IC/Passport</b></label><br>
+    <input type="text" id="id" name="id" required><br><br>
+
+    <!-- /* CHECK SENDIRI/PENGIRING  -->
+
+    <label for="warganegara"><b>Warganegara</b></label><br>
+    <input type="radio" id="ya" checked="checked" value="ya" name="warganegara">Ya<br>
+    <input type="radio" id="tidak" value="tidak" name="warganegara">Tidak<br><br>
+
+    <label for="keturunan">(Kalau Warganegara)</label><br>
+    <label for="keturunan">Keturunan</label><br>
+    <input type="text" id="keturunan" name="keturunan" required><br><br>
+
+    <label for="negaraasal">(Kalau Bukan Warganegara)</label><br>
+    <label for="negaraasal">Negara Asal</label><br>
+    <input type="text" value="-"  id="negaraasal" name="negaraasal"><br>
+    <label for="statuskdtgn">Status Kedatangan</label><br>
+    <input type="radio" id="izin" checked="checked"  value="izin" name="statuskdtgn">Izin<br>
+    <input type="radio" id="tizin" value="tizin" name="statuskdtgn">Tanpa Izin<br>
+    <input type="radio" id="ptetap" value="ptetap" name="statuskdtgn">Penduduk Tetap<br><br>  
+
+    <label for="jantina"><b>Jantina</b></label><br>
+    <input type="radio" id="lelaki" checked="checked"  value="lelaki" name="jantina">Lelaki<br>
+    <input type="radio" id="perempuan" value="perempuan" name="jantina">Perempuan<br><br>
+
+    <label for="dob"><b>Tarikh Lahir (tahun-bulan-hari)</b></label><br>
+    <label for="dob">Contoh: '1957-08-31'</label><br>
+    <input type="text" id="dob" name="dob" required><br><br>
+
+    <label for="age"><b>Umur</b></label><br>
+    <input type="text" id="age" name="age" required><br><br>
+
+    <label for="job"><b>Pekerjaan</b></label><br>
+    <input type="text" id="job" name="job" required><br><br>
+
+    <!-- /* CHECK TEL BIMBIT -->
+
+    <label for="tel"><b>Telefon</b></label><br>
+    <input type="text" id="tel" name="tel" required><br><br>
+
+    <label for="asd"><b>Alamat</b></label><br>
+    <textarea name="address"  id="address" form="form" rows="4" cols="20" required></textarea><br><br>
+
+    <!-- /* CHECK DIAG - OTHERS  -->
+
+    <label for="diagnosis"><b>Diagnosis</b></label><br>
+    <input type="text" id="diagnosis" name="diagnosis" value="Saringan COVID-19" required><br><br>
+
+    <label for="carapengesanan"><b>Cara Pengesanan Kes</b></label><br>
+    <input type="radio" id="kes" checked="checked"  value="kes" name="carapengesanan">Kes<br>
+    <input type="radio" id="kontak" value="kontak" name="carapengesanan">Kontak<br>
+    <input type="radio" id="fomema" value="fomema" name="carapengesanan">FOMEMA<br><br>  
+
+    <label for="statuspesakit"><b>Status Pesakit</b></label><br>
+    <input type="radio" id="alive" checked="checked"  value="hidup" name="statuspesakit">Hidup<br>
+    <input type="radio" id="dead" value="mati" name="statuspesakit">Mati<br><br>
+
+    <label for="onset"><b>Tarikh Onset (tahun-bulan-hari)</b></label><br>
+    <label for="onset">Contoh: '1957-08-31'</label><br>
+    <input type="text" id="onset" name="onset" required><br><br>
+
+    <label for="test"><b>Ujian Makmal</b></label><br>
+    <input type="text" id="test" name="test" value="RT-PCR" required><br><br>
+
+    <label for="nama"><b>Tarikh Sampel Diambil (tahun-bulan-hari)</b></label><br>
+    <label for="nama">Contoh: '1957-08-31'</label><br>
+    <input type="text" id="samplingdt" name="samplingdt" required><br><br>
+
+    <label for="testresult"><b>Keputusan Ujian Makmal</b></label><br>
+    <input type="radio" id="positive"  value="positive" name="testresult">Positif<br>
+    <input type="radio" id="negative" value="negative" name="testresult">Negatif<br>
+    <input type="radio" id="pending" checked="checked" value="pending" name="testresult">Belum Siap<br><br> 
+
+    <label for="statusdiagnosis"><b>Status Diagnosis</b></label><br>
+    <input type="radio" id="sementara" checked="checked"  value="sementara" name="statusdiagnosis">Sementara<br>
+    <input type="radio" id="disahkan" value="disahkan" name="statusdiagnosis">Disahkan<br><br>
+    
+    <label for="nama"><b>Tarikh Diagnosis (tahun-bulan-hari)</b></label><br>
+    <label for="nama">Contoh: '1957-08-31'</label><br>
+    <input type="text" id="diagnosisdt" name="diagnosisdt" required><br><br>
+
+    <label for="nama"><b>Maklumat Klinikal</b></label><br>
+    <textarea name="clinicalinfo"  id="clinicalinfo" form="form" rows="5" cols="20" required></textarea><br><br>
+
+    <label for="nama"><b>Nama Doktor</b></label><br>
+    <input type="text" id="doctorname" name="doctorname" required><br><br>
+
+    <label for="mpm"><b>Nombor MPM Doktor</b></label><br>
+    <input type="text" id="mpm" name="mpm" required><br><br>
+
+    <label for="nama"><b>Nama Klinik/Hosp</b></label><br>
+    <input type="text" id="clinichospname" name="clinichospname" required><br><br>
+
+    <label for="nama"><b>Tarikh Notifikasi (tahun-bulan-hari)</b></label><br>
+    <label for="nama">Contoh: '1957-08-31'</label><br>
+    <input type="text" id="notifydt" name="notifydt" required><br><br><br>
+    
+    <input type="submit" onclick="processForm()" value="Submit"><br><br><br><br><br><br>
+    <!-- <input type="submit" onclick="testQR()" value="Submit"><br><br><br><br><br><br> -->
+  </form>
+
+  </div>
+
+<!-- <script src="qrcode.js"></script> -->
+<script>
+const { jsPDF } = window.jspdf;
+// const { QRCode } = window.qrcode;
+
+var doc = new jsPDF()
 
 /* ========================
     RECT BOX CONFIGURATION
@@ -407,12 +538,11 @@ let diseasesIndex = [
         { name: 'Others', value: 44 }
 ]
 
-
 /* ================
     CORE FUNCTIONS
    ================ */
 
-function createBox(startX, startY, numRow, cellsPerRow, 
+   function createBox(startX, startY, numRow, cellsPerRow, 
         width, height) {
     for (let i=0; i<numRow; i++) {
         let rectY = startY + (i * height)
@@ -1031,470 +1161,566 @@ function setTandatangan(val) {
 }
 
 function drawQRCode(val) {
-    doc.text(val, 'PNG', TANDATANGAN_X+4, TANDATANGAN_Y+4,
+    doc.addImage(val, 'JPEG', TANDATANGAN_X+23, TANDATANGAN_Y+2,
+             13, 13, '', 'NONE', 0)
+}
+
+
+
+function processForm() {
+        // var doc = new jsPDF()
+        // doc.text("Hello world!", 10, 10)
+        // doc.save("a4.pdf")
+
+        /* ===========
+            RENDERING
+          =========== */
+        /* 
+            PRE-TITLE
+        */
+        text(99.62, 1.18, "JADUAL", "helvetica", "normal", 5)
+        text(97.89, 3.68, "(Peraturan 2)", "helvetica", "normal", 5)
+        text(100.64, 6.18, "Borang", "helvetica", "normal", 5)
+        text(97.89, 8.67, "(Peraturan 2)", "helvetica", "normal", 5)
+        text(72.68, 11.17, "AKTA PENCEGAHAN DAN PENGAWALAN PENYAKIT BERJANGKIT 1988", "helvetica", "normal", 5)
+        text(48.08, 13.67, "PERATURAN-PERATURAN PENCEGAHAN DAN PENGAWALAN PENYAKIT BERJANGKIT (BORANG NOTIS (PINDAAN) 2011", "helvetica", "normal", 5)
+        text(169.77, 11.17, "Borang Notis: Rev/2010", "helvetica", "normal", 5)
+        text(169.77, 13.67, "No. Siri:", "helvetica", "normal", 5)
+
+        /* 
+        TITLE
+        */
+        text(49.49, 18.5, "NOTIFIKASI PENYAKIT BERJANGKIT YANG PERLU DILAPORKAN",
+        "helvetica", "bold", 9.8)
+
+        /* 
+        1SUBTITLE
+        */
+        text(64.64, 22.5, "(Seksyen 10, Akta Pencegahan Dan Pengawalan Penyakit Berjangkit 1988)", 
+        "helvetica", "normal", 7)
+
+        /* 
+        1ST RECT
+        */
+        rect(BIG_RECT_X, 25.88, BIG_RECT_WIDTH, 4.45, true)
+        // Section-1 Title
+        text(6.74, 26.48, "  A. MAKLUMAT PESAKIT", "helvetica", "normal", 6.9)
+
+        /* 
+        2ND RECT - Name
+        */
+        rect(BIG_RECT_X, 30.33, BIG_RECT_WIDTH, 21, false)
+        // Nama 
+        text(10.47, 32.53, "1. Nama Penuh (HURUF BESAR):", "helvetica", "normal", 6.9)
+        createBox(NAMA_X, NAMA_Y, 
+                NAMA_NUMOFROW, NAMA_BOXPERROW,
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        // Nama pengiring
+        text(14.58, 41.63, "Nama Pengiring (Ibu/Bapa/Penjaga):", "helvetica", "normal", 6.9)
+        createBox(NAMA_PENGIRING_X, NAMA_PENGIRING_Y, 
+                NAMA_PENGIRING_NUMOFROW, NAMA_PENGIRING_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(14.58, 45.02, "(Jika belum mempunyai Kad Pengenalan diri)", "helvetica", "normal", 6)
+
+        /* 
+        3RD RECT - ID, No Daftar Hosp/Klinik, Wad, Date of Admission
+        */
+        rect(BIG_RECT_X, 51.30, BIG_RECT_WIDTH, 17, false)
+        // Kad pengenalan
+        text(10.47, 53.15, "2. No. Kad Pengenalan Diri / Dokumen Perjalanan", "helvetica", "normal", 6.9)
+        createBox(ID_X, ID_Y, ID_NUMOFROW, ID_BOXPERROW, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        createBox(ID_SENDIRI_X, ID_SENDIRI_Y, 
+                ID_SENDIRI_NUMOFROW, ID_SENDIRI_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(160.84, 53.15, "Sendiri", "helvetica", "normal", 6.9)
+        createBox(ID_PENGIRING_X, ID_PENGIRING_Y, 
+                ID_PENGIRING_NUMOFROW, ID_PENGIRING_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(178.79, 53.15, "Pengiring", "helvetica", "normal", 6.9)
+        text(42.25, 57, "(Untuk Bukan Warganegara)", "helvetica", "normal", 6.9)
+        // No. pendaftaran hosp/klinik
+        text(13, 62.43, "No. Daftar Hospital / Klinik", "helvetica", "normal", 6.9)
+        createBox(NO_DAFTAR_HOSP_KLINIK_X, NO_DAFTAR_HOSP_KLINIK_Y, 
+                NO_DAFTAR_HOSP_KLINIK_NUMOFROW, NO_DAFTAR_HOSP_KLINIK_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(WAD_X, WAD_Y, "Nama Wad:_______________", "helvetica", "normal", 6.9)
+        text(124.22, 62.43, "Tarikh Masuk Wad:", "helvetica", "normal", 6.9)
+        createBox(TARIKH_ADM_DAY_X, TARIKH_ADM_DAY_Y, 
+                TARIKH_ADM_DAY_NUMOFROW, TARIKH_ADM_DAY_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(157.96, 62.43, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_ADM_MTH_X, TARIKH_ADM_MTH_Y, 
+                TARIKH_ADM_MTH_NUMOFROW, TARIKH_ADM_MTH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(171.42, 62.43, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_ADM_YR_X, TARIKH_ADM_YR_Y, 
+                TARIKH_ADM_YR_NUMOFROW, TARIKH_ADM_YR_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+
+        /* 
+        4TH RECT - Nationality, Gender, DOB, Age, Occupation
+        */
+        rect(BIG_RECT_X, 68.27, BIG_RECT_WIDTH/2, 37, false)
+        rect(BIG_RECT_X+(BIG_RECT_WIDTH/2), 68.27, BIG_RECT_WIDTH/2, 37, false)
+        // left-half
+        text(10.47, 70.79, "3. Kewarganegaraan:", "helvetica", "normal", 6.9)
+        text(14.58, 74.73, "Warganegara:", "helvetica", "normal", 6.9)
+        createBox(WARGANEGARA_YA_X, WARGANEGARA_YA_Y, 
+                WARGANEGARA_YA_NUMOFROW, WARGANEGARA_YA_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(19.06, 78.96, "Ya", "helvetica", "normal", 6.9)
+        text(28.04, 78.96, "Keturunan:", "helvetica", "normal", 6.9)
+        createBox(KETURUNAN_X, KETURUNAN_Y, 
+                KETURUNAN_NUMOFROW, KETURUNAN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(28.04, 84.13, "Sukuketurunan:", "helvetica", "normal", 6.9)
+        createBox(SUKUKETURUNAN_X, SUKUKETURUNAN_Y, 
+                SUKUKETURUNAN_NUMOFROW, SUKUKETURUNAN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(28.6, 88.15, "(Bagi O/Asli, Pribumi Sabah/Sarawak)", "helvetica", "normal", 6.9)
+        createBox(WARGANEGARA_TIDAK_X, WARGANEGARA_TIDAK_Y, 
+                WARGANEGARA_TIDAK_NUMOFROW, WARGANEGARA_TIDAK_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(19.06, 92.43, "Tidak", "helvetica", "normal", 6.9)
+        text(28.04, 92.43, "Negara Asal:", "helvetica", "normal", 6.9)
+        createBox(NEGARA_ASAL_X, NEGARA_ASAL_Y, 
+                NEGARA_ASAL_NUMOFROW, NEGARA_ASAL_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(28.04, 96.49, "Status", "helvetica", "normal", 6.9)
+        text(28.04, 100.13, "Kedatangan:", "helvetica", "normal", 6.9)
+        createBox(KEDATANGAN_IZIN_X, KEDATANGAN_IZIN_Y, 
+                KEDATANGAN_IZIN_NUMOFROW, KEDATANGAN_IZIN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(51.45, 100.13, "Izin", "helvetica", "normal", 6.9)
+        createBox(KEDATANGAN_TANPA_IZIN_X, KEDATANGAN_TANPA_IZIN_Y, 
+                KEDATANGAN_TANPA_IZIN_NUMOFROW, KEDATANGAN_TANPA_IZIN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(64.91, 100.13, "Tanpa Izin", "helvetica", "normal", 6.9)
+        createBox(KEDATANGAN_PDK_TETAP_X, KEDATANGAN_PDK_TETAP_Y, 
+                KEDATANGAN_PDK_TETAP_NUMOFROW, KEDATANGAN_PDK_TETAP_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(83.83, 100.13, "Penduduk Tetap", "helvetica", "normal", 6.9)
+        // right-half
+        text(110.76, 70.79, "4. Jantina:", "helvetica", "normal", 6.9)
+        createBox(JANTINA_LELAKI_X, JANTINA_LELAKI_Y, 
+                JANTINA_LELAKI_NUMOFROW, JANTINA_LELAKI_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(128.71, 70.79, "Lelaki", "helvetica", "normal", 6.9)
+        createBox(JANTINA_PEREMPUAN_X, JANTINA_PEREMPUAN_Y, 
+                JANTINA_PEREMPUAN_NUMOFROW, JANTINA_PEREMPUAN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(147.37, 70.79, "Perempuan", "helvetica", "normal", 6.9)
+        text(110.76, 78.96, "5. Tarikh Lahir:", "helvetica", "normal", 6.9)
+        createBox(TARIKH_LAHIR_DAY_X, TARIKH_LAHIR_DAY_Y, 
+                TARIKH_LAHIR_DAY_NUMOFROW, TARIKH_LAHIR_DAY_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(139.12, 78.75, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_LAHIR_MTH_X, TARIKH_LAHIR_MTH_Y, 
+                TARIKH_LAHIR_MTH_NUMOFROW, TARIKH_LAHIR_MTH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(152.58, 78.75, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_LAHIR_YR_X, TARIKH_LAHIR_YR_Y, 
+                TARIKH_LAHIR_YR_NUMOFROW, TARIKH_LAHIR_YR_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(110.76, 88.15, "6. Umur:", "helvetica", "normal", 6.9)
+        createBox(UMUR_X, UMUR_Y, UMUR_NUMOFROW, UMUR_BOXPERROW, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        createBox(UMUR_TAHUN_X, UMUR_TAHUN_Y, 
+                UMUR_TAHUN_NUMOFROW, UMUR_TAHUN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(151.86, 88.15, "Tahun", "helvetica", "normal", 6.9)
+        createBox(UMUR_BULAN_X, UMUR_BULAN_Y, 
+                UMUR_BULAN_NUMOFROW, UMUR_BULAN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(165.32, 88.15, "Bulan", "helvetica", "normal", 6.9)
+        createBox(UMUR_HARI_X, UMUR_HARI_Y,
+                UMUR_HARI_NUMOFROW, UMUR_HARI_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(178.79, 88.15, "Hari", "helvetica", "normal", 6.9)
+        text(PEKERJAAN_X, PEKERJAAN_Y, "7. Pekerjaan:____________________________________________", "helvetica", "normal", 6.9)
+        text(115.99, 100.6, "(Jika tidak bekerja, nyatakan status diri)", "helvetica", "normal", 6.9)
+
+        /* 
+        5TH RECT - Telephone, Address
+        */
+        rect(BIG_RECT_X, 105.27, BIG_RECT_WIDTH, 25, false)
+        text(10.47, 107.52, "8. No. Telefon:", "helvetica", "normal", 6.9)
+        createBox(TEL_RUMAH_X, TEL_RUMAH_Y, 
+                TEL_RUMAH_NUMOFROW, TEL_RUMAH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(41.5, 107.52, "Rumah", "helvetica", "normal", 6.9)
+        createBox(TEL_BIMBIT_X, TEL_BIMBIT_Y, 
+                TEL_BIMBIT_NUMOFROW, TEL_BIMBIT_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(60.42, 107.52, "Tel. Bimbit", "helvetica", "normal", 6.9)
+        createBox(TEL_PEJABAT_X, TEL_PEJABAT_Y, 
+                TEL_PEJABAT_NUMOFROW, TEL_PEJABAT_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(79.35, 107.52, "Pejabat", "helvetica", "normal", 6.9)
+        createBox(TEL_NUMBER_X, TEL_NUMBER_Y, 
+                TEL_NUMBER_NUMOFROW, TEL_NUMBER_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(13, 111.38, "(Untuk dihubungi)", "helvetica", "normal", 6.9)
+        text(10.47, 115.65, "9. Alamat Kediaman", "helvetica", "normal", 6.9)
+        createBox(ALAMAT_KEDIAMAN1_X, ALAMAT_KEDIAMAN1_Y, 
+                ALAMAT_KEDIAMAN1_NUMOFROW, ALAMAT_KEDIAMAN1_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        createBox(ALAMAT_KEDIAMAN2_X, ALAMAT_KEDIAMAN2_Y, 
+                ALAMAT_KEDIAMAN2_NUMOFROW, ALAMAT_KEDIAMAN2_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(115.24, 115.65, "10. Alamat Tempat Kerja / Belajar:", "helvetica", "normal", 6.9)
+        createBox(ALAMAT_PEJABAT_X, ALAMAT_PEJABAT_Y, 
+                ALAMAT_PEJABAT_NUMOFROW, ALAMAT_PEJABAT_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+
+        /* 
+        6TH RECT
+        */
+        rect(BIG_RECT_X, 130.27, BIG_RECT_WIDTH, 4.45, true)
+        // Section-1 Title
+        text(6.74, 131.59, "  B. DIAGNOSIS PENYAKIT", "helvetica", "normal", 6.9)
+
+        /* 
+        7TH RECT - Disease
+        */
+        rect(BIG_RECT_X, 134.72, BIG_RECT_WIDTH, 89, false)
+        for (let i=0; i<15; i++) {
+          let boxDisplY = DISEASE_BOX_BASE_DISPL_Y * i 
+          let textDisplY = DISEASE_TXT_BASE_DISPL_Y * i
+          let d = i * 3 
+
+          createBox(DISEASE_BOX_BASE_X1, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+          text(DISEASE_TXT_BASE_X1, DISEASE_TXT_BASE_Y+textDisplY, diseases[d], "helvetica", "normal", 6.9)
+          createBox(DISEASE_BOX_BASE_X2, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+          text(DISEASE_TXT_BASE_X2, DISEASE_TXT_BASE_Y+textDisplY, diseases[d+1], "helvetica", "normal", 6.9)
+          createBox(DISEASE_BOX_BASE_X3, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+          text(DISEASE_TXT_BASE_X3, DISEASE_TXT_BASE_Y+textDisplY, diseases[d+2], "helvetica", "normal", 6.9)
+        }
+
+        /* 
+        8TH RECT
+        */
+        rect(BIG_RECT_X, 223.72, BIG_RECT_WIDTH, 3, true)
+        // Section-1 Title
+        text(8, 224.5, "Selain dari notifikasi bertulis, penyakit berikut perlu dinotifikasi melalui telefon dalam tempoh 24 jam iaitu:- Poliomielitis Akut, Kolera, Demam Denggi, Diptheria, Keracunan Makanan, Plague, Rabies dan Demam Kuning.", "helvetica", "bold", 5)
+        // text(8, 227.5, "Keracunan Makanan, Plague, Rabies dan Demam Kuning.", "helvetica", "bold", 5)
+
+        /* 
+        9TH RECT - Case Detection Method, Patient Status, Onset
+        */
+        rect(BIG_RECT_X, 226.72, BIG_RECT_WIDTH/3, 16, false)
+        rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 226.72, BIG_RECT_WIDTH/3, 16, false)
+        rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 226.72, BIG_RECT_WIDTH/3, 16, false)
+        // 1st-third
+        text(10.43, 227.61, "11. Cara Pengesanan Kes:", "helvetica", "normal", 6.9)
+        createBox(KES_X, KES_Y, 
+                KES_NUMOFROW, KES_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(19.02, 231.8, "Kes", "helvetica", "normal", 6.9)
+        createBox(KONTAK_X, KONTAK_Y, 
+                KONTAK_NUMOFROW, KONTAK_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(36.97, 231.8, "Kontak", "helvetica", "normal", 6.9)
+        createBox(FOMEMA_X, FOMEMA_Y, 
+                FOMEMA_NUMOFROW, FOMEMA_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(55.89, 231.8, "FOMEMA", "helvetica", "normal", 6.9)
+        createBox(UJIAN_SARINGAN_X, UJIAN_SARINGAN_Y, 
+                UJIAN_SARINGAN_NUMOFROW, UJIAN_SARINGAN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(UJIAN_SARINGAN_NAME_X, UJIAN_SARINGAN_NAME_Y, "Ujian Saringan ______________________", "helvetica", "normal", 6.9)
+        // 2nd-third
+        text(73.84, 227.61, "12. Status Pesakit:", "helvetica", "normal", 6.9)
+        createBox(STATUS_HIDUP_X, STATUS_HIDUP_Y, 
+                STATUS_HIDUP_NUMOFROW, STATUS_HIDUP_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(82.79, 231.8, "Hidup", "helvetica", "normal", 6.9)
+        createBox(STATUS_MATI_X, STATUS_MATI_Y, 
+                STATUS_MATI_NUMOFROW, STATUS_MATI_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(82.79, 238.01, "Mati", "helvetica", "normal", 6.9)
+        createBox(TARIKH_MATI_DAY_X, TARIKH_MATI_DAY_Y, 
+                TARIKH_MATI_DAY_NUMOFROW, TARIKH_MATI_DAY_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//92.21(-35.9);78.02(+162.86)
+        text(101.22, 237.61, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_MATI_MTH_X, TARIKH_MATI_MTH_Y, 
+                TARIKH_MATI_MTH_NUMOFROW, TARIKH_MATI_MTH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(114.68, 237.61, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_MATI_YR_X, TARIKH_MATI_YR_Y, 
+                TARIKH_MATI_YR_NUMOFROW, TARIKH_MATI_YR_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        // 3rd-third
+        text(140.37, 227.61, "13. Tarikh Onset:", "helvetica", "normal", 6.9)
+        createBox(TARIKH_ONSET_DAY_X, TARIKH_ONSET_DAY_Y, 
+                TARIKH_ONSET_DAY_NUMOFROW, TARIKH_ONSET_DAY_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
+        text(155.27, 231.74, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_ONSET_MTH_X, TARIKH_ONSET_MTH_Y, 
+                TARIKH_ONSET_MTH_NUMOFROW, TARIKH_ONSET_MTH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(168.73, 231.74, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_ONSET_YR_X, TARIKH_ONSET_YR_Y, 
+                TARIKH_ONSET_YR_NUMOFROW, TARIKH_ONSET_YR_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+
+
+        /* 
+        10TH RECT - Test, Result, Diagnosis
+        */
+        rect(BIG_RECT_X, 242.72, BIG_RECT_WIDTH/3, 23, false)
+        rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
+        rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
+        // 1st-third
+        text(10.43, 243.85, "14. Ujian Makmal:", "helvetica", "normal", 6.9)
+        text(UJIAN_MAKMAL_NAME_X, UJIAN_MAKMAL_NAME_Y, "Nama Ujian: (i)_____________________", "helvetica", "normal", 6.9)
+        text(14.53, 252.5, "(ii)_______________ (iii)________________", "helvetica", "normal", 6.9)
+        text(14.53, 257.5, "Tarikh Sampel Diambil:", "helvetica", "normal", 6.9)
+        createBox(TARIKH_SAMPLING_DAY_X, TARIKH_SAMPLING_DAY_Y, 
+                TARIKH_SAMPLING_DAY_NUMOFROW, TARIKH_SAMPLING_DAY_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//13.98(-130.28);265.35(+30.34)
+        text(24.99, 261.08, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_SAMPLING_MTH_X, TARIKH_SAMPLING_MTH_Y, 
+                TARIKH_SAMPLING_MTH_NUMOFROW, TARIKH_SAMPLING_MTH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(38.45, 261.08, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_SAMPLING_YR_X, TARIKH_SAMPLING_YR_Y, 
+                TARIKH_SAMPLING_YR_NUMOFROW, TARIKH_SAMPLING_YR_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        // 2nd-third
+        text(73.84, 243.85, "15. Keputusan Ujian Makmal:", "helvetica", "normal", 6.9)
+        createBox(UJIAN_POSITIVE_X, UJIAN_POSITIVE_Y, 
+                UJIAN_POSITIVE_NUMOFROW, UJIAN_POSITIVE_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(86.28, 249.14, "Positif (_____________________________)", "helvetica", "normal", 6.9)
+        createBox(UJIAN_NEGATIVE_X, UJIAN_NEGATIVE_Y, 
+                UJIAN_NEGATIVE_NUMOFROW, UJIAN_NEGATIVE_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(86.28, 254.5, "Negatif", "helvetica", "normal", 6.9)
+        createBox(UJIAN_BELUM_SIAP_X, UJIAN_BELUM_SIAP_Y, 
+                UJIAN_BELUM_SIAP_NUMOFROW, UJIAN_BELUM_SIAP_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(86.28, 259.8, "Belum Siap", "helvetica", "normal", 6.9)
+        // 3rd-third
+        text(140.37, 243.6, "16. Status Diagnosis:", "helvetica", "normal", 6.9)
+        createBox(DIAG_SEMENTARA_X, DIAG_SEMENTARA_Y, 
+                DIAG_SEMENTARA_NUMOFROW, DIAG_SEMENTARA_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(151.31, 247.23, "Sementara (Provisional/Suspected)", "helvetica", "normal", 6.9)
+        createBox(DIAG_DISAHKAN_X, DIAG_DISAHKAN_Y, 
+                DIAG_DISAHKAN_NUMOFROW, DIAG_DISAHKAN_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(151.31, 252.59, "Disahkan (Confirmed)", "helvetica", "normal", 6.9)
+        text(144.43, 257.5, "Tarikh Diagnosis", "helvetica", "normal", 6.9)
+        createBox(TARIKH_DIAG_DAY_X, TARIKH_DIAG_DAY_Y, 
+                TARIKH_DIAG_DAY_NUMOFROW, TARIKH_DIAG_DAY_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
+        text(155.27, 261.08, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_DIAG_MTH_X, TARIKH_DIAG_MTH_Y, 
+                TARIKH_DIAG_MTH_NUMOFROW, TARIKH_DIAG_MTH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(168.73, 261.08, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_DIAG_YR_X, TARIKH_DIAG_YR_Y, 
+                TARIKH_DIAG_YR_NUMOFROW, TARIKH_DIAG_YR_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+
+
+        /* 
+        11TH RECT - Clinical Info, Comment 
+        */
+        rect(BIG_RECT_X, 265.72, BIG_RECT_WIDTH, 11, false)
+        text(10.43, 268.15, "17. Maklumat Klinikal", "helvetica", "normal", 6.9)
+        text(14.43, 272.05, "  Yang Relevan:", "helvetica", "normal", 6.9)
+        createBox(MAKLUMAT_KLINIKAL_X, MAKLUMAT_KLINIKAL_Y, 
+                MAKLUMAT_KLINIKAL_NUMOFROW, MAKLUMAT_KLINIKAL_BOXPERROW, 
+                LARGE_BOX_WIDTH, LARGE_BOX_HEIGHT)
+        text(140.13, 268.15, "18. Komen:", "helvetica", "normal", 6.9)
+        createBox(KOMEN_X, KOMEN_Y, 
+                KOMEN_NUMOFROW, KOMEN_BOXPERROW, 
+                MEDIUM_BOX_WIDTH, MEDIUM_BOX_HEIGHT)
+
+
+        /* 
+        12TH RECT
+        */
+        rect(BIG_RECT_X, 276.72, BIG_RECT_WIDTH, 3.45, true)
+        // Section-1 Title
+        text(6.74, 277.2, "  C. MAKLUMAT PEMBERITAHU", "helvetica", "normal", 6)
+
+
+        /* 
+        13TH RECT - Officer Name, Admission Center, Notification Date
+        */
+        rect(BIG_RECT_X, 280.17, BIG_RECT_WIDTH, 16, false)
+        text(10.43, 282.17, "19. Nama Pengamal Perubatan:", "helvetica", "normal", 6.9)
+        createBox(NAMA_OFFICER_X, NAMA_OFFICER_Y, 
+                NAMA_OFFICER_NUMOFROW, NAMA_OFFICER_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(10.43, 287.17, "20. Nama Hospital / Klinik dan Alamat:", "helvetica", "normal", 6.9)
+        createBox(NAMA_HOSP_KLINIK_X, NAMA_HOSP_KLINIK_Y, 
+                NAMA_HOSP_KLINIK_NUMOFROW, NAMA_HOSP_KLINIK_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(10.43, 292.17, "21. Tarikh Pemberitahuan:", "helvetica", "normal", 6.9)
+        createBox(TARIKH_NOTIFIKASI_DAY_X, TARIKH_NOTIFIKASI_DAY_Y, 
+                TARIKH_NOTIFIKASI_DAY_NUMOFROW, TARIKH_NOTIFIKASI_DAY_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//55.51(-88.75);291.17(+30.82)
+        text(66.52, 291.9, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_NOTIFIKASI_MTH_X, TARIKH_NOTIFIKASI_MTH_Y, 
+                TARIKH_NOTIFIKASI_MTH_NUMOFROW, TARIKH_NOTIFIKASI_MTH_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(79.98, 291.9, "-", "helvetica", "normal", 6.9)
+        createBox(TARIKH_NOTIFIKASI_YR_X, TARIKH_NOTIFIKASI_YR_Y, 
+                TARIKH_NOTIFIKASI_YR_NUMOFROW, TARIKH_NOTIFIKASI_YR_BOXPERROW, 
+                SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
+        text(TANDATANGAN_X, 289, "…………………………………………", "helvetica", "normal", 6.9)
+        text(TANDATANGAN_X, 292, "Tandatangan Pengamal Perubatan", "helvetica", "normal", 6.9)
+
+
+        /* 
+           ======
+           OUTPUT
+           ======
+        */          
+        let ptname = document.getElementById("name").value;
+        ptname = ptname ? ptname : ''
+        let id = document.getElementById("id").value;
+        /* CHECK SENDIRI/PENGIRING */
+
+        let warganegara = document.querySelector('input[name="warganegara"]:checked').value;
+        let keturunan = document.getElementById("keturunan").value;
+
+        let negaraasal = document.getElementById("negaraasal").value;
+        let statuskdtgn = document.querySelector('input[name="statuskdtgn"]:checked').value;
+
+        let jantina = document.querySelector('input[name="jantina"]:checked').value;
+        let dob = document.getElementById("dob").value;
+        let age = document.getElementById("age").value;
+        let job = document.getElementById("job").value;
+
+        /* CHECK TEL BIMBIT */
+        let tel = document.getElementById("tel").value;
+        let address = document.getElementById("address").value
+        // let address = document.querySelector('input[name="address"]:checked').value;
+        
+        /* CHECK DIAG - OTHERS */
+        let diagnosis = document.getElementById("diagnosis").value;
+        
+        let carapengesanan = document.querySelector('input[name="carapengesanan"]:checked').value;
+        let statuspesakit = document.querySelector('input[name="statuspesakit"]:checked').value;
+        let onset = document.getElementById("onset").value;
+        let test = document.getElementById("test").value;
+        let samplingdt = document.getElementById("samplingdt").value;        
+        let testresult = document.querySelector('input[name="testresult"]:checked').value;
+        let statusdiagnosis = document.querySelector('input[name="statusdiagnosis"]:checked').value;
+        let diagnosisdt = document.getElementById("diagnosisdt").value;
+        
+        let clinicalinfo = document.getElementById("clinicalinfo").value;
+        
+        let doctorname = document.getElementById("doctorname").value;
+        let mpm = document.getElementById("mpm").value;        
+        let clinichospname = document.getElementById("clinichospname").value;
+        let notifydt = document.getElementById("notifydt").value;
+
+
+        // OUTPUT         
+        setNama(ptname)
+        setID(id)
+        checkIDSendiri()
+        if (warganegara==='ya') {
+                checkWarganegaraYa()
+                setKeturunan(keturunan)
+        } else {
+                checkWarganegaraTidak()
+                setNegaraAsal(negaraasal)
+                if (statuskdtgn==='izin') {
+                        checkKedatanganIzin()
+                } else if (statuskdtgn==='tizin') {
+                        checkKedatanganTanpaIzin()
+                } else {
+                        checkKedatanganPdkTetap()
+                }
+        }
+        if (jantina==='lelaki') {
+                checkJantinaLelaki()
+        } else {
+                checkJantinaPerempuan()
+        }
+        setTarikhLahir(dob)
+        setUmur(age)
+        checkUmurTahun()
+        setPekerjaan(job)
+        checkTelBimbit()
+        setTelNumber(tel)
+        setAlamatKediaman(address)
+        checkDisease(44)
+        setOtherDisease('Saringan COVID-19')
+        checkKes()
+        // checkUjianSaringan()
+        // setUjianSaringan('RTK-Ag')
+        checkStatusHidup()
+        setTarikhOnset(onset)
+        setUjianMakmal(test)
+        setTarikhSampling(samplingdt)
+
+        if (testresult==='positive') {
+          checkUjianPositif()
+        } else if (testresult==='negative') {
+          checkUjianNegatif()
+        } else {
+          checkUjianBelumSiap()
+        }
+
+        if (statusdiagnosis==='sementara') {
+          checkDiagSementara()
+        } else {
+          checkDiagDisahkan()
+        }
+        
+        setTarikhDiag(diagnosisdt)
+        setMaklumatKlinikal(clinicalinfo)
+        setNamaOfficer(doctorname)
+        setNamaHospKlinik(clinichospname)
+        setTarikhNotifikasi(notifydt)
+
+        let doktorDetails = doctorname.toUpperCase() +'\n' +
+                            'MPM: ' + mpm + '\n' +
+                            clinichospname.toUpperCase() + '\n' +
+                            'Notify: ' + notifydt
+        setTandatangan(doktorDetails)
+
+        let brgname = 
+                notifydt +' - ' +
+                'Borang Notifikasi' +' - ' +
+                ptname +' - ' +
+                clinichospname
+
+        let c = document.createElement("CANVAS")
+        QRCode.toCanvas(c, doktorDetails, function (error) {
+            if (error) console.error(error)
+            console.log('success!');
+        })        
+        drawQRCode(c)
+    
+        doc.save(brgname +".pdf")        
+}
+
+
+function testQR () {
+  doc.text("Hello world!", 10, 10);  
+
+  let c = document.createElement("CANVAS")  
+  QRCode.toCanvas(c, 'www.google.com', function (error) {
+      if (error) console.error(error)
+      console.log('success!');
+  })
+  // [WORK]
+  doc.addImage(c, 'JPEG', TANDATANGAN_X, TANDATANGAN_Y,
              5, 5, '', 'NONE', 0)
+
+  doc.save("a4.pdf");
 }
 
 
+</script>
 
-
-
-/* ===========
-    RENDERING
-   =========== */
-
-/* 
-    PRE-TITLE
-*/
-text(99.62, 1.18, "JADUAL", "helvetica", "normal", 5)
-text(97.89, 3.68, "(Peraturan 2)", "helvetica", "normal", 5)
-text(100.64, 6.18, "Borang", "helvetica", "normal", 5)
-text(97.89, 8.67, "(Peraturan 2)", "helvetica", "normal", 5)
-text(72.68, 11.17, "AKTA PENCEGAHAN DAN PENGAWALAN PENYAKIT BERJANGKIT 1988", "helvetica", "normal", 5)
-text(48.08, 13.67, "PERATURAN-PERATURAN PENCEGAHAN DAN PENGAWALAN PENYAKIT BERJANGKIT (BORANG NOTIS (PINDAAN) 2011", "helvetica", "normal", 5)
-text(169.77, 11.17, "Borang Notis: Rev/2010", "helvetica", "normal", 5)
-text(169.77, 13.67, "No. Siri:", "helvetica", "normal", 5)
-
-
-/* 
-TITLE
-*/
-text(49.49, 18.5, "NOTIFIKASI PENYAKIT BERJANGKIT YANG PERLU DILAPORKAN",
-"helvetica", "bold", 9.8)
-
-
-/* 
-1SUBTITLE
-*/
-text(64.64, 22.5, "(Seksyen 10, Akta Pencegahan Dan Pengawalan Penyakit Berjangkit 1988)", 
-"helvetica", "normal", 7)
-
-
-/* 
-1ST RECT
-*/
-rect(BIG_RECT_X, 25.88, BIG_RECT_WIDTH, 4.45, true)
-// Section-1 Title
-text(6.74, 26.48, "  A. MAKLUMAT PESAKIT", "helvetica", "normal", 6.9)
-
-
-/* 
-2ND RECT - Name
-*/
-rect(BIG_RECT_X, 30.33, BIG_RECT_WIDTH, 21, false)
-// Nama 
-text(10.47, 32.53, "1. Nama Penuh (HURUF BESAR):", "helvetica", "normal", 6.9)
-createBox(NAMA_X, NAMA_Y, 
-        NAMA_NUMOFROW, NAMA_BOXPERROW,
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-// Nama pengiring
-text(14.58, 41.63, "Nama Pengiring (Ibu/Bapa/Penjaga):", "helvetica", "normal", 6.9)
-createBox(NAMA_PENGIRING_X, NAMA_PENGIRING_Y, 
-        NAMA_PENGIRING_NUMOFROW, NAMA_PENGIRING_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(14.58, 45.02, "(Jika belum mempunyai Kad Pengenalan diri)", "helvetica", "normal", 6)
-
-
-/* 
-3RD RECT - ID, No Daftar Hosp/Klinik, Wad, Date of Admission
-*/
-rect(BIG_RECT_X, 51.30, BIG_RECT_WIDTH, 17, false)
-// Kad pengenalan
-text(10.47, 53.15, "2. No. Kad Pengenalan Diri / Dokumen Perjalanan", "helvetica", "normal", 6.9)
-createBox(ID_X, ID_Y, ID_NUMOFROW, ID_BOXPERROW, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-createBox(ID_SENDIRI_X, ID_SENDIRI_Y, 
-        ID_SENDIRI_NUMOFROW, ID_SENDIRI_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(160.84, 53.15, "Sendiri", "helvetica", "normal", 6.9)
-createBox(ID_PENGIRING_X, ID_PENGIRING_Y, 
-        ID_PENGIRING_NUMOFROW, ID_PENGIRING_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(178.79, 53.15, "Pengiring", "helvetica", "normal", 6.9)
-text(42.25, 57, "(Untuk Bukan Warganegara)", "helvetica", "normal", 6.9)
-// No. pendaftaran hosp/klinik
-text(13, 62.43, "No. Daftar Hospital / Klinik", "helvetica", "normal", 6.9)
-createBox(NO_DAFTAR_HOSP_KLINIK_X, NO_DAFTAR_HOSP_KLINIK_Y, 
-        NO_DAFTAR_HOSP_KLINIK_NUMOFROW, NO_DAFTAR_HOSP_KLINIK_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(WAD_X, WAD_Y, "Nama Wad:_______________", "helvetica", "normal", 6.9)
-text(124.22, 62.43, "Tarikh Masuk Wad:", "helvetica", "normal", 6.9)
-createBox(TARIKH_ADM_DAY_X, TARIKH_ADM_DAY_Y, 
-        TARIKH_ADM_DAY_NUMOFROW, TARIKH_ADM_DAY_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(157.96, 62.43, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_ADM_MTH_X, TARIKH_ADM_MTH_Y, 
-        TARIKH_ADM_MTH_NUMOFROW, TARIKH_ADM_MTH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(171.42, 62.43, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_ADM_YR_X, TARIKH_ADM_YR_Y, 
-        TARIKH_ADM_YR_NUMOFROW, TARIKH_ADM_YR_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-
-
-/* 
-4TH RECT - Nationality, Gender, DOB, Age, Occupation
-*/
-rect(BIG_RECT_X, 68.27, BIG_RECT_WIDTH/2, 37, false)
-rect(BIG_RECT_X+(BIG_RECT_WIDTH/2), 68.27, BIG_RECT_WIDTH/2, 37, false)
-// left-half
-text(10.47, 70.79, "3. Kewarganegaraan:", "helvetica", "normal", 6.9)
-text(14.58, 74.73, "Warganegara:", "helvetica", "normal", 6.9)
-createBox(WARGANEGARA_YA_X, WARGANEGARA_YA_Y, 
-        WARGANEGARA_YA_NUMOFROW, WARGANEGARA_YA_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(19.06, 78.96, "Ya", "helvetica", "normal", 6.9)
-text(28.04, 78.96, "Keturunan:", "helvetica", "normal", 6.9)
-createBox(KETURUNAN_X, KETURUNAN_Y, 
-        KETURUNAN_NUMOFROW, KETURUNAN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(28.04, 84.13, "Sukuketurunan:", "helvetica", "normal", 6.9)
-createBox(SUKUKETURUNAN_X, SUKUKETURUNAN_Y, 
-        SUKUKETURUNAN_NUMOFROW, SUKUKETURUNAN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(28.6, 88.15, "(Bagi O/Asli, Pribumi Sabah/Sarawak)", "helvetica", "normal", 6.9)
-createBox(WARGANEGARA_TIDAK_X, WARGANEGARA_TIDAK_Y, 
-        WARGANEGARA_TIDAK_NUMOFROW, WARGANEGARA_TIDAK_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(19.06, 92.43, "Tidak", "helvetica", "normal", 6.9)
-text(28.04, 92.43, "Negara Asal:", "helvetica", "normal", 6.9)
-createBox(NEGARA_ASAL_X, NEGARA_ASAL_Y, 
-        NEGARA_ASAL_NUMOFROW, NEGARA_ASAL_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(28.04, 96.49, "Status", "helvetica", "normal", 6.9)
-text(28.04, 100.13, "Kedatangan:", "helvetica", "normal", 6.9)
-createBox(KEDATANGAN_IZIN_X, KEDATANGAN_IZIN_Y, 
-        KEDATANGAN_IZIN_NUMOFROW, KEDATANGAN_IZIN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(51.45, 100.13, "Izin", "helvetica", "normal", 6.9)
-createBox(KEDATANGAN_TANPA_IZIN_X, KEDATANGAN_TANPA_IZIN_Y, 
-        KEDATANGAN_TANPA_IZIN_NUMOFROW, KEDATANGAN_TANPA_IZIN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(64.91, 100.13, "Tanpa Izin", "helvetica", "normal", 6.9)
-createBox(KEDATANGAN_PDK_TETAP_X, KEDATANGAN_PDK_TETAP_Y, 
-        KEDATANGAN_PDK_TETAP_NUMOFROW, KEDATANGAN_PDK_TETAP_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(83.83, 100.13, "Penduduk Tetap", "helvetica", "normal", 6.9)
-// right-half
-text(110.76, 70.79, "4. Jantina:", "helvetica", "normal", 6.9)
-createBox(JANTINA_LELAKI_X, JANTINA_LELAKI_Y, 
-        JANTINA_LELAKI_NUMOFROW, JANTINA_LELAKI_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(128.71, 70.79, "Lelaki", "helvetica", "normal", 6.9)
-createBox(JANTINA_PEREMPUAN_X, JANTINA_PEREMPUAN_Y, 
-        JANTINA_PEREMPUAN_NUMOFROW, JANTINA_PEREMPUAN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(147.37, 70.79, "Perempuan", "helvetica", "normal", 6.9)
-text(110.76, 78.96, "5. Tarikh Lahir:", "helvetica", "normal", 6.9)
-createBox(TARIKH_LAHIR_DAY_X, TARIKH_LAHIR_DAY_Y, 
-        TARIKH_LAHIR_DAY_NUMOFROW, TARIKH_LAHIR_DAY_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(139.12, 78.75, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_LAHIR_MTH_X, TARIKH_LAHIR_MTH_Y, 
-        TARIKH_LAHIR_MTH_NUMOFROW, TARIKH_LAHIR_MTH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(152.58, 78.75, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_LAHIR_YR_X, TARIKH_LAHIR_YR_Y, 
-        TARIKH_LAHIR_YR_NUMOFROW, TARIKH_LAHIR_YR_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(110.76, 88.15, "6. Umur:", "helvetica", "normal", 6.9)
-createBox(UMUR_X, UMUR_Y, UMUR_NUMOFROW, UMUR_BOXPERROW, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-createBox(UMUR_TAHUN_X, UMUR_TAHUN_Y, 
-        UMUR_TAHUN_NUMOFROW, UMUR_TAHUN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(151.86, 88.15, "Tahun", "helvetica", "normal", 6.9)
-createBox(UMUR_BULAN_X, UMUR_BULAN_Y, 
-        UMUR_BULAN_NUMOFROW, UMUR_BULAN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(165.32, 88.15, "Bulan", "helvetica", "normal", 6.9)
-createBox(UMUR_HARI_X, UMUR_HARI_Y,
-        UMUR_HARI_NUMOFROW, UMUR_HARI_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(178.79, 88.15, "Hari", "helvetica", "normal", 6.9)
-text(PEKERJAAN_X, PEKERJAAN_Y, "7. Pekerjaan:____________________________________________", "helvetica", "normal", 6.9)
-text(115.99, 100.6, "(Jika tidak bekerja, nyatakan status diri)", "helvetica", "normal", 6.9)
-
-
-/* 
-5TH RECT - Telephone, Address
-*/
-rect(BIG_RECT_X, 105.27, BIG_RECT_WIDTH, 25, false)
-text(10.47, 107.52, "8. No. Telefon:", "helvetica", "normal", 6.9)
-createBox(TEL_RUMAH_X, TEL_RUMAH_Y, 
-        TEL_RUMAH_NUMOFROW, TEL_RUMAH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(41.5, 107.52, "Rumah", "helvetica", "normal", 6.9)
-createBox(TEL_BIMBIT_X, TEL_BIMBIT_Y, 
-        TEL_BIMBIT_NUMOFROW, TEL_BIMBIT_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(60.42, 107.52, "Tel. Bimbit", "helvetica", "normal", 6.9)
-createBox(TEL_PEJABAT_X, TEL_PEJABAT_Y, 
-        TEL_PEJABAT_NUMOFROW, TEL_PEJABAT_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(79.35, 107.52, "Pejabat", "helvetica", "normal", 6.9)
-createBox(TEL_NUMBER_X, TEL_NUMBER_Y, 
-        TEL_NUMBER_NUMOFROW, TEL_NUMBER_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(13, 111.38, "(Untuk dihubungi)", "helvetica", "normal", 6.9)
-text(10.47, 115.65, "9. Alamat Kediaman", "helvetica", "normal", 6.9)
-createBox(ALAMAT_KEDIAMAN1_X, ALAMAT_KEDIAMAN1_Y, 
-        ALAMAT_KEDIAMAN1_NUMOFROW, ALAMAT_KEDIAMAN1_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-createBox(ALAMAT_KEDIAMAN2_X, ALAMAT_KEDIAMAN2_Y, 
-        ALAMAT_KEDIAMAN2_NUMOFROW, ALAMAT_KEDIAMAN2_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(115.24, 115.65, "10. Alamat Tempat Kerja / Belajar:", "helvetica", "normal", 6.9)
-createBox(ALAMAT_PEJABAT_X, ALAMAT_PEJABAT_Y, 
-        ALAMAT_PEJABAT_NUMOFROW, ALAMAT_PEJABAT_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-
-
-/* 
-6TH RECT
-*/
-rect(BIG_RECT_X, 130.27, BIG_RECT_WIDTH, 4.45, true)
-// Section-1 Title
-text(6.74, 131.59, "  B. DIAGNOSIS PENYAKIT", "helvetica", "normal", 6.9)
-
-
-/* 
-7TH RECT - Disease
-*/
-rect(BIG_RECT_X, 134.72, BIG_RECT_WIDTH, 89, false)
-
-
-for (let i=0; i<15; i++) {
-let boxDisplY = DISEASE_BOX_BASE_DISPL_Y * i 
-let textDisplY = DISEASE_TXT_BASE_DISPL_Y * i
-let d = i * 3 
-
-createBox(DISEASE_BOX_BASE_X1, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(DISEASE_TXT_BASE_X1, DISEASE_TXT_BASE_Y+textDisplY, diseases[d], "helvetica", "normal", 6.9)
-createBox(DISEASE_BOX_BASE_X2, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(DISEASE_TXT_BASE_X2, DISEASE_TXT_BASE_Y+textDisplY, diseases[d+1], "helvetica", "normal", 6.9)
-createBox(DISEASE_BOX_BASE_X3, DISEASE_BOX_BASE_Y+boxDisplY, 1, 1, SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(DISEASE_TXT_BASE_X3, DISEASE_TXT_BASE_Y+textDisplY, diseases[d+2], "helvetica", "normal", 6.9)
-}
-
-
-/* 
-8TH RECT
-*/
-rect(BIG_RECT_X, 223.72, BIG_RECT_WIDTH, 3, true)
-// Section-1 Title
-text(8, 224.5, "Selain dari notifikasi bertulis, penyakit berikut perlu dinotifikasi melalui telefon dalam tempoh 24 jam iaitu:- Poliomielitis Akut, Kolera, Demam Denggi, Diptheria, Keracunan Makanan, Plague, Rabies dan Demam Kuning.", "helvetica", "bold", 5)
-// text(8, 227.5, "Keracunan Makanan, Plague, Rabies dan Demam Kuning.", "helvetica", "bold", 5)
-
-
-/* 
-9TH RECT - Case Detection Method, Patient Status, Onset
-*/
-rect(BIG_RECT_X, 226.72, BIG_RECT_WIDTH/3, 16, false)
-rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 226.72, BIG_RECT_WIDTH/3, 16, false)
-rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 226.72, BIG_RECT_WIDTH/3, 16, false)
-// 1st-third
-text(10.43, 227.61, "11. Cara Pengesanan Kes:", "helvetica", "normal", 6.9)
-createBox(KES_X, KES_Y, 
-        KES_NUMOFROW, KES_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(19.02, 231.8, "Kes", "helvetica", "normal", 6.9)
-createBox(KONTAK_X, KONTAK_Y, 
-        KONTAK_NUMOFROW, KONTAK_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(36.97, 231.8, "Kontak", "helvetica", "normal", 6.9)
-createBox(FOMEMA_X, FOMEMA_Y, 
-        FOMEMA_NUMOFROW, FOMEMA_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(55.89, 231.8, "FOMEMA", "helvetica", "normal", 6.9)
-createBox(UJIAN_SARINGAN_X, UJIAN_SARINGAN_Y, 
-        UJIAN_SARINGAN_NUMOFROW, UJIAN_SARINGAN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(UJIAN_SARINGAN_NAME_X, UJIAN_SARINGAN_NAME_Y, "Ujian Saringan ______________________", "helvetica", "normal", 6.9)
-// 2nd-third
-text(73.84, 227.61, "12. Status Pesakit:", "helvetica", "normal", 6.9)
-createBox(STATUS_HIDUP_X, STATUS_HIDUP_Y, 
-        STATUS_HIDUP_NUMOFROW, STATUS_HIDUP_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(82.79, 231.8, "Hidup", "helvetica", "normal", 6.9)
-createBox(STATUS_MATI_X, STATUS_MATI_Y, 
-        STATUS_MATI_NUMOFROW, STATUS_MATI_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(82.79, 238.01, "Mati", "helvetica", "normal", 6.9)
-createBox(TARIKH_MATI_DAY_X, TARIKH_MATI_DAY_Y, 
-        TARIKH_MATI_DAY_NUMOFROW, TARIKH_MATI_DAY_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//92.21(-35.9);78.02(+162.86)
-text(101.22, 237.61, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_MATI_MTH_X, TARIKH_MATI_MTH_Y, 
-        TARIKH_MATI_MTH_NUMOFROW, TARIKH_MATI_MTH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(114.68, 237.61, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_MATI_YR_X, TARIKH_MATI_YR_Y, 
-        TARIKH_MATI_YR_NUMOFROW, TARIKH_MATI_YR_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-// 3rd-third
-text(140.37, 227.61, "13. Tarikh Onset:", "helvetica", "normal", 6.9)
-createBox(TARIKH_ONSET_DAY_X, TARIKH_ONSET_DAY_Y, 
-        TARIKH_ONSET_DAY_NUMOFROW, TARIKH_ONSET_DAY_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
-text(155.27, 231.74, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_ONSET_MTH_X, TARIKH_ONSET_MTH_Y, 
-        TARIKH_ONSET_MTH_NUMOFROW, TARIKH_ONSET_MTH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(168.73, 231.74, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_ONSET_YR_X, TARIKH_ONSET_YR_Y, 
-        TARIKH_ONSET_YR_NUMOFROW, TARIKH_ONSET_YR_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-
-
-/* 
-10TH RECT - Test, Result, Diagnosis
-*/
-rect(BIG_RECT_X, 242.72, BIG_RECT_WIDTH/3, 23, false)
-rect(BIG_RECT_X+(BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
-rect(BIG_RECT_X+(2*BIG_RECT_WIDTH/3), 242.72, BIG_RECT_WIDTH/3, 23, false)
-// 1st-third
-text(10.43, 243.85, "14. Ujian Makmal:", "helvetica", "normal", 6.9)
-text(UJIAN_MAKMAL_NAME_X, UJIAN_MAKMAL_NAME_Y, "Nama Ujian: (i)_____________________", "helvetica", "normal", 6.9)
-text(14.53, 252.5, "(ii)_______________ (iii)________________", "helvetica", "normal", 6.9)
-text(14.53, 257.5, "Tarikh Sampel Diambil:", "helvetica", "normal", 6.9)
-createBox(TARIKH_SAMPLING_DAY_X, TARIKH_SAMPLING_DAY_Y, 
-        TARIKH_SAMPLING_DAY_NUMOFROW, TARIKH_SAMPLING_DAY_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//13.98(-130.28);265.35(+30.34)
-text(24.99, 261.08, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_SAMPLING_MTH_X, TARIKH_SAMPLING_MTH_Y, 
-        TARIKH_SAMPLING_MTH_NUMOFROW, TARIKH_SAMPLING_MTH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(38.45, 261.08, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_SAMPLING_YR_X, TARIKH_SAMPLING_YR_Y, 
-        TARIKH_SAMPLING_YR_NUMOFROW, TARIKH_SAMPLING_YR_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-// 2nd-third
-text(73.84, 243.85, "15. Keputusan Ujian Makmal:", "helvetica", "normal", 6.9)
-createBox(UJIAN_POSITIVE_X, UJIAN_POSITIVE_Y, 
-        UJIAN_POSITIVE_NUMOFROW, UJIAN_POSITIVE_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(86.28, 249.14, "Positif (_____________________________)", "helvetica", "normal", 6.9)
-createBox(UJIAN_NEGATIVE_X, UJIAN_NEGATIVE_Y, 
-        UJIAN_NEGATIVE_NUMOFROW, UJIAN_NEGATIVE_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(86.28, 254.5, "Negatif", "helvetica", "normal", 6.9)
-createBox(UJIAN_BELUM_SIAP_X, UJIAN_BELUM_SIAP_Y, 
-        UJIAN_BELUM_SIAP_NUMOFROW, UJIAN_BELUM_SIAP_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(86.28, 259.8, "Belum Siap", "helvetica", "normal", 6.9)
-// 3rd-third
-text(140.37, 243.6, "16. Status Diagnosis:", "helvetica", "normal", 6.9)
-createBox(DIAG_SEMENTARA_X, DIAG_SEMENTARA_Y, 
-        DIAG_SEMENTARA_NUMOFROW, DIAG_SEMENTARA_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(151.31, 247.23, "Sementara (Provisional/Suspected)", "helvetica", "normal", 6.9)
-createBox(DIAG_DISAHKAN_X, DIAG_DISAHKAN_Y, 
-        DIAG_DISAHKAN_NUMOFROW, DIAG_DISAHKAN_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(151.31, 252.59, "Disahkan (Confirmed)", "helvetica", "normal", 6.9)
-text(144.43, 257.5, "Tarikh Diagnosis", "helvetica", "normal", 6.9)
-createBox(TARIKH_DIAG_DAY_X, TARIKH_DIAG_DAY_Y, 
-        TARIKH_DIAG_DAY_NUMOFROW, TARIKH_DIAG_DAY_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//144.26(+54.05);235.01(-5.87)
-text(155.27, 261.08, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_DIAG_MTH_X, TARIKH_DIAG_MTH_Y, 
-        TARIKH_DIAG_MTH_NUMOFROW, TARIKH_DIAG_MTH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(168.73, 261.08, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_DIAG_YR_X, TARIKH_DIAG_YR_Y, 
-        TARIKH_DIAG_YR_NUMOFROW, TARIKH_DIAG_YR_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-
-
-/* 
-11TH RECT - Clinical Info, Comment 
-*/
-rect(BIG_RECT_X, 265.72, BIG_RECT_WIDTH, 11, false)
-text(10.43, 268.15, "17. Maklumat Klinikal", "helvetica", "normal", 6.9)
-text(14.43, 272.05, "  Yang Relevan:", "helvetica", "normal", 6.9)
-createBox(MAKLUMAT_KLINIKAL_X, MAKLUMAT_KLINIKAL_Y, 
-        MAKLUMAT_KLINIKAL_NUMOFROW, MAKLUMAT_KLINIKAL_BOXPERROW, 
-        LARGE_BOX_WIDTH, LARGE_BOX_HEIGHT)
-text(140.13, 268.15, "18. Komen:", "helvetica", "normal", 6.9)
-createBox(KOMEN_X, KOMEN_Y, 
-        KOMEN_NUMOFROW, KOMEN_BOXPERROW, 
-        MEDIUM_BOX_WIDTH, MEDIUM_BOX_HEIGHT)
-
-
-/* 
-12TH RECT
-*/
-rect(BIG_RECT_X, 276.72, BIG_RECT_WIDTH, 3.45, true)
-// Section-1 Title
-text(6.74, 277.2, "  C. MAKLUMAT PEMBERITAHU", "helvetica", "normal", 6)
-
-
-/* 
-13TH RECT - Officer Name, Admission Center, Notification Date
-*/
-rect(BIG_RECT_X, 280.17, BIG_RECT_WIDTH, 16, false)
-text(10.43, 282.17, "19. Nama Pengamal Perubatan:", "helvetica", "normal", 6.9)
-createBox(NAMA_OFFICER_X, NAMA_OFFICER_Y, 
-        NAMA_OFFICER_NUMOFROW, NAMA_OFFICER_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(10.43, 287.17, "20. Nama Hospital / Klinik dan Alamat:", "helvetica", "normal", 6.9)
-createBox(NAMA_HOSP_KLINIK_X, NAMA_HOSP_KLINIK_Y, 
-        NAMA_HOSP_KLINIK_NUMOFROW, NAMA_HOSP_KLINIK_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(10.43, 292.17, "21. Tarikh Pemberitahuan:", "helvetica", "normal", 6.9)
-createBox(TARIKH_NOTIFIKASI_DAY_X, TARIKH_NOTIFIKASI_DAY_Y, 
-        TARIKH_NOTIFIKASI_DAY_NUMOFROW, TARIKH_NOTIFIKASI_DAY_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)//55.51(-88.75);291.17(+30.82)
-text(66.52, 291.9, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_NOTIFIKASI_MTH_X, TARIKH_NOTIFIKASI_MTH_Y, 
-        TARIKH_NOTIFIKASI_MTH_NUMOFROW, TARIKH_NOTIFIKASI_MTH_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(79.98, 291.9, "-", "helvetica", "normal", 6.9)
-createBox(TARIKH_NOTIFIKASI_YR_X, TARIKH_NOTIFIKASI_YR_Y, 
-        TARIKH_NOTIFIKASI_YR_NUMOFROW, TARIKH_NOTIFIKASI_YR_BOXPERROW, 
-        SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-text(TANDATANGAN_X, 289, "…………………………………………", "helvetica", "normal", 6.9)
-text(TANDATANGAN_X, 292, "Tandatangan Pengamal Perubatan", "helvetica", "normal", 6.9)
-
-
-/* ===================================
-    Example: Filling up for a patient
-   =================================== */
-
-setNama("chow hsien lung")
-setID("880601105149")
-checkIDSendiri()
-setNamaWad('Kenanga 1')
-setTarikhAdm('2021-03-13')
-checkWarganegaraYa()
-setKeturunan('cina')
-checkJantinaLelaki()
-setTarikhLahir('1988-06-01')
-setUmur('32')
-checkUmurTahun()
-setPekerjaan('Doctor')
-checkTelBimbit()
-setTelNumber('0163184120')
-setAlamatKediaman('C2,Kuarters Klinik Kesihatan Jengka 2, Maran, Pahang')
-setAlamatPejabat('C2,Kuarters Klinik Kesihatan Jengka 2, Maran, Pahang')
-checkDisease(44)
-setOtherDisease('COVID-19')
-checkKes()
-checkUjianSaringan()
-setUjianSaringan('RTK-Ag')
-checkStatusHidup()
-setTarikhOnset('2021-03-10')
-setUjianMakmal('RT-PCR')
-setTarikhSampling('2021-03-11')
-checkUjianPositif()
-checkDiagDisahkan()
-setTarikhDiag('2021-03-13')
-setMaklumatKlinikal('fever, cough 2/7. Kes Kluster Kilang Alps. fever, cough 2/7. Kes Kluster Kilang Alps. fever, cough 2/7. Kes Kluster Kilang Alps.')
-setNamaOfficer('Dr Chow Hsien Lung')
-setNamaHospKlinik('PKD Maran')
-setTarikhNotifikasi('2021-03-13')
-setTandatangan('Dr Chow Hsien Lung\nMPM: 64650\nPKD Maran')
-
-
-// Output
-doc.save("BorangNotifikasi3.pdf"); 
-
+</body>
+</html>
