@@ -34,7 +34,7 @@
 
   <div class="center">
 
-  <h2>Borang Notifikasi Digital</h2>
+  <h2>Borang Notifikasi Digital<span style="color:lightgray;"> (ver 1.0)</span></h2>
 
   <form id="form" onsubmit="event.preventDefault();">
     <div class="content">
@@ -44,6 +44,13 @@
 
     <label for="id"><b>IC/Passport</b></label><br>
     <input oninput="setDobAndAge()" type="text" id="id" name="id" ><br><br>
+
+    <label for="dob"><b>Tarikh Lahir</b> (tahun-bulan-hari)</label><br>
+    <label for="dob">Contoh: '1957-08-31'</label><br>
+    <input type="text" id="dob" name="dob" ><br><br>
+
+    <label for="age"><b>Umur</b></label><br>
+    <input type="text" id="age" name="age" ><br><br>
 
     <hr>
     <!-- /* CHECK SENDIRI/PENGIRING  -->
@@ -71,14 +78,7 @@
     <label for="jantina"><b>Jantina</b></label><br>
     <input type="radio" id="lelaki" checked="checked"  value="lelaki" name="jantina">Lelaki<br>
     <input type="radio" id="perempuan" value="perempuan" name="jantina">Perempuan<br><br>
-
-    <label for="dob"><b>Tarikh Lahir (tahun-bulan-hari)</b></label><br>
-    <label for="dob">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="dob" name="dob" ><br><br>
-
-    <label for="age"><b>Umur</b></label><br>
-    <input type="text" id="age" name="age" ><br><br>
-
+   
     <label for="job"><b>Pekerjaan</b></label><br>
     <input type="text" id="job" name="job" ><br><br>
 
@@ -109,7 +109,7 @@
     <input type="radio" id="alive" checked="checked"  value="hidup" name="statuspesakit">Hidup<br>
     <input type="radio" id="dead" value="mati" name="statuspesakit">Mati<br><br>
 
-    <label for="onset"><b>Tarikh Onset (tahun-bulan-hari)</b></label><br>
+    <label for="onset"><b>Tarikh Onset</b> (tahun-bulan-hari)</label><br>
     <label for="onset">Contoh: '1957-08-31'</label><br>
     <input type="text" id="onset" name="onset" ><br><br>
 
@@ -118,7 +118,7 @@
     <label for="test"><b>Ujian Makmal</b></label><br>
     <input type="text" id="test" name="test" value="RT-PCR" ><br><br>
 
-    <label for="nama"><b>Tarikh Sampel Diambil (tahun-bulan-hari)</b></label><br>
+    <label for="nama"><b>Tarikh Sampel Diambil</b> (tahun-bulan-hari)</label><br>
     <label for="nama">Contoh: '1957-08-31'</label><br>
     <input type="text" id="samplingdt" name="samplingdt" ><br><br>
 
@@ -133,7 +133,7 @@
     <input type="radio" id="sementara" checked="checked"  value="sementara" name="statusdiagnosis">Sementara<br>
     <input type="radio" id="disahkan" value="disahkan" name="statusdiagnosis">Disahkan<br><br>
     
-    <label for="nama"><b>Tarikh Diagnosis (tahun-bulan-hari)</b></label><br>
+    <label for="nama"><b>Tarikh Diagnosis</b> (tahun-bulan-hari)</label><br>
     <label for="nama">Contoh: '1957-08-31'</label><br>
     <input type="text" id="diagnosisdt" name="diagnosisdt" ><br><br>
 
@@ -151,7 +151,7 @@
     <label for="nama"><b>Nama Klinik/Hosp</b></label><br>
     <input type="text" id="clinichospname" name="clinichospname" ><br><br>
 
-    <label for="nama"><b>Tarikh Notifikasi (tahun-bulan-hari)</b></label><br>
+    <label for="nama"><b>Tarikh Notifikasi</b> (tahun-bulan-hari)</label><br>
     <label for="nama">Contoh: '1957-08-31'</label><br>
     <input type="text" id="notifydt" name="notifydt" ><br><br><br>    
     </div>
@@ -1252,7 +1252,7 @@ function drawQRCode(val) {
 
 
 function getDobFromIC (ic) {
-        let IC = ic.replace('-', '')
+        let IC = ic.replace(/-/g, '')
         if (IC.length!==12) { return ''}
         let y = IC.substring(0, 2)
         let m = IC.substring(2, 4)
