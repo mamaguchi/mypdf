@@ -43,7 +43,7 @@
     <input autofocus type="text" id="name" name="name" ><br><br>
 
     <label for="id"><b>IC/Passport</b></label><br>
-    <input type="text" id="id" name="id" ><br><br>
+    <input oninput="setDobAndAge()" type="text" id="id" name="id" ><br><br>
 
     <hr>
     <!-- /* CHECK SENDIRI/PENGIRING  -->
@@ -74,7 +74,7 @@
 
     <label for="dob"><b>Tarikh Lahir (tahun-bulan-hari)</b></label><br>
     <label for="dob">Contoh: '1957-08-31'</label><br>
-    <input oninput="setAge()" type="text" id="dob" name="dob" ><br><br>
+    <input type="text" id="dob" name="dob" ><br><br>
 
     <label for="age"><b>Umur</b></label><br>
     <input type="text" id="age" name="age" ><br><br>
@@ -1251,6 +1251,23 @@ function drawQRCode(val) {
 }
 
 
+function getDobFromIC (ic) {
+        let IC = ic.replace('-', '')
+        if (IC.length!==12) { return ''}
+        let y = IC.substring(0, 2)
+        let m = IC.substring(2, 4)
+        let d = IC.substring(4, 6)
+        let cyprefix = (new Date()).toISOString().substring(2, 4)
+        let yprefix = ''
+        if (parseInt(y)-parseInt(cyprefix)>0) {
+                yprefix = '19'
+        } else {
+                yprefix = '20'
+        }
+
+        return yprefix + y + '-' + m + '-' + d 
+}
+
 function getAge (dob) {
       if (dob === '') { return '' }
 
@@ -1260,19 +1277,19 @@ function getAge (dob) {
       const diffDay = diff / (60 * 60 * 24)
       const ageDay = Math.abs(Math.round(diffDay))
       if (ageDay === 1) {
-        return ageDay.toString() 
+        return ageDay.toString() + ' hari'
       }
       if (ageDay <= 30) {
-        return ageDay.toString() 
+        return ageDay.toString() + ' hari' 
       }
       // Month
       const diffMonth = diffDay / (7 * 4)
       const ageMonth = Math.abs(Math.round(diffMonth))
       if (ageMonth === 1) {
-        return ageMonth.toString() 
+        return ageMonth.toString() + ' bulan' 
       }
       if (ageMonth <= 12) {
-        return ageMonth.toString() 
+        return ageMonth.toString() + ' bulan' 
       }
       // Year
       let currentYear = (new Date()).toISOString().substring(0, 4)
@@ -1280,13 +1297,20 @@ function getAge (dob) {
       const ageDt = new Date(diffMs)
       const ageYear = Math.abs(ageDt.getUTCFullYear() - 1970)
       if (ageYear === 1) {
-        return ageYear.toString() 
+        return ageYear.toString() + ' tahun' 
       }
-      return ageYear.toString() 
+      return ageYear.toString() + ' tahun' 
 }
 
-function setAge () {
-        let dob = document.getElementById("dob").value         
+function setDobAndAge () {
+        // let dob = document.getElementById("dob").value  
+        document.getElementById("dob").value = ''  
+        document.getElementById("age").value = ''       
+        let id = document.getElementById("id").value   
+        if (!id) { return }
+        let dob = getDobFromIC(id)  
+        if (!dob) { return } 
+        document.getElementById("dob").value = dob  
         document.getElementById("age").value = getAge(dob)
 }
 
@@ -1694,7 +1718,7 @@ function processForm() {
         createBox(TARIKH_NOTIFIKASI_YR_X, TARIKH_NOTIFIKASI_YR_Y, 
                 TARIKH_NOTIFIKASI_YR_NUMOFROW, TARIKH_NOTIFIKASI_YR_BOXPERROW, 
                 SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT)
-        text(TANDATANGAN_X, 289, "…………………………………………", "helvetica", "normal", 6.9)
+        text(TANDATANGAN_X, 289, ".......................................................", "helvetica", "normal", 6.9)
         text(TANDATANGAN_X, 292, "Tandatangan Pengamal Perubatan", "helvetica", "normal", 6.9)
 
 
@@ -1716,7 +1740,9 @@ function processForm() {
 
         let jantina = document.querySelector('input[name="jantina"]:checked').value;
         let dob = document.getElementById("dob").value;
-        let age = document.getElementById("age").value;
+        let ageArr = document.getElementById("age").value.split(' ')
+        let age = ageArr[0]
+        let ageYMD = ageArr[1]
         let job = document.getElementById("job").value;
 
         /* CHECK TEL BIMBIT */
@@ -1770,7 +1796,13 @@ function processForm() {
         }
         setTarikhLahir(dob)
         setUmur(age)
-        checkUmurTahun()
+        if (ageYMD==='tahun') {
+                checkUmurTahun()
+        } else if (ageYMD==='bulan') {
+                checkUmurBulan()
+        } else {
+                checkUmurHari()
+        }
         setPekerjaan(job)
         checkTelBimbit()
         setTelNumber(tel)
