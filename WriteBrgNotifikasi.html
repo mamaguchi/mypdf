@@ -74,7 +74,7 @@
 
     <label for="dob"><b>Tarikh Lahir (tahun-bulan-hari)</b></label><br>
     <label for="dob">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="dob" name="dob" ><br><br>
+    <input oninput="setAge()" type="text" id="dob" name="dob" ><br><br>
 
     <label for="age"><b>Umur</b></label><br>
     <input type="text" id="age" name="age" ><br><br>
@@ -94,7 +94,11 @@
     <!-- /* CHECK DIAG - OTHERS  -->
 
     <label for="diagnosis"><b>Diagnosis</b></label><br>
-    <input type="text" id="diagnosis" name="diagnosis" value="Saringan COVID-19" ><br><br>
+    <select id="diseases" onchange="toggleDiseases()"></select><br><br>
+    <div id="diagOthers">
+    <label for="diagnosis">Nyatakan: </label>
+    <input type="text" id="diagnosis" name="diagnosis"><br><br><br><br>
+    </div>
 
     <label for="carapengesanan"><b>Cara Pengesanan Kes</b></label><br>
     <input type="radio" id="kes" checked="checked"  value="kes" name="carapengesanan">Kes<br>
@@ -175,7 +179,64 @@ document.getElementById("notifydt").value = todayDt
 document.getElementById("doctorname").value = DOCTOR_NAME
 document.getElementById("mpm").value = MPM_NUMBER
 document.getElementById("clinichospname").value = CLINIC_OR_HOSP
-document.getElementById("bwn").style.display = "none";
+document.getElementById("bwn").style.display = "none"
+document.getElementById("diagOthers").style.display = "none"
+
+let diseasesIndex = [
+        { name: 'Poliomyelitis', value: 0 },
+        { name: 'Hand, Food and Mouth Disease', value: 1 },
+        { name: 'Syphilis - Acquired', value: 2 },
+        { name: 'Viral Hepatitis A', value: 3 },
+        { name: 'Human Immunodeficiency Virus Infection', value: 4 },
+        { name: 'Tetanus Neonatorum', value: 5 },
+        { name: 'Viral Hepatitis B', value: 6 },
+        { name: 'Influenza', value: 7 },
+        { name: 'Tetanus (Others)', value: 8 },
+        { name: 'Viral Hepatitis C', value: 9 },
+        { name: 'Leprosy (Multibacillary)', value: 10 },
+        { name: 'Typhus - Scrub', value: 11 },
+        { name: 'Viral Hepatitis (Others)', value: 12 },
+        { name: 'Leprosy (Paucibacillary)', value: 13 },
+        { name: 'Tuberculosis - PTB Smear Positive', value: 14 },
+        { name: 'AIDS', value: 15 },
+        { name: 'Leptospirosis', value: 16 },
+        { name: 'Tuberculosis - PTB Smear Negative', value: 17 },
+        { name: 'Chancroid', value: 18 },
+        { name: 'Malaria - Vivax', value: 19 },
+        { name: 'Tuberculosis - Extra Pulmonary', value: 20 },
+        { name: 'Cholera', value: 21 },
+        { name: 'Malaria - Falciparum', value: 22 },
+        { name: 'Typhoid - Salmonella Typhi', value: 23 },
+        { name: 'Dengue Fever', value: 24 },
+        { name: 'Malaria - Malariae', value: 25 },
+        { name: 'Typhoid - Paratyphoid', value: 26 },
+        { name: 'Dengue Haemorrhagic Fever', value: 27 },
+        { name: 'Malaria - Others', value: 28 },
+        { name: 'Viral Encephalitis Japanese', value: 29 },
+        { name: 'Diphtheria', value: 30 },
+        { name: 'Measles', value: 31 },
+        { name: 'Viral Encephalitis Nipah', value: 32 },
+        { name: 'Dysentery', value: 33 },
+        { name: 'Plague', value: 34 },
+        { name: 'Viral Encephalitis (Others)', value: 35 },
+        { name: 'Ebola', value: 36 },
+        { name: 'Rabies', value: 37 },
+        { name: 'Whooping Cough / Pertussis', value: 38 },
+        { name: 'Food Poisoning', value: 39 },
+        { name: 'Relapsing Fever', value: 40 },
+        { name: 'Yellow Fever', value: 41 },
+        { name: 'Gonorrhoea', value: 42 },
+        { name: 'Syphilis - Congenital', value: 43 },
+        { name: 'Others', value: 44 }
+]
+
+var d = document.getElementById("diseases")
+for (let i=0; i<diseasesIndex.length; i++) {
+        let option = document.createElement("option");
+        option.text = diseasesIndex[i].name
+        option.value = diseasesIndex[i].value
+        d.add(option) 
+}
 
 /* ========================
     RECT BOX CONFIGURATION
@@ -533,53 +594,6 @@ let diseases = [
         '45. Others: please specify__________________'
 ]
 
-let diseasesIndex = [
-        { name: 'Poliomyelitis', value: 0 },
-        { name: 'Hand, Food and Mouth Disease', value: 1 },
-        { name: 'Syphilis - Acquired', value: 2 },
-        { name: 'Viral Hepatitis A', value: 3 },
-        { name: 'Human Immunodeficiency Virus Infection', value: 4 },
-        { name: 'Tetanus Neonatorum', value: 5 },
-        { name: 'Viral Hepatitis B', value: 6 },
-        { name: 'Influenza', value: 7 },
-        { name: 'Tetanus (Others)', value: 8 },
-        { name: 'Viral Hepatitis C', value: 9 },
-        { name: 'Leprosy (Multibacillary)', value: 10 },
-        { name: 'Typhus - Scrub', value: 11 },
-        { name: 'Viral Hepatitis (Others)', value: 12 },
-        { name: 'Leprosy (Paucibacillary)', value: 13 },
-        { name: 'Tuberculosis - PTB Smear Positive', value: 14 },
-        { name: 'AIDS', value: 15 },
-        { name: 'Leptospirosis', value: 16 },
-        { name: 'Tuberculosis - PTB Smear Negative', value: 17 },
-        { name: 'Chancroid', value: 18 },
-        { name: 'Malaria - Vivax', value: 19 },
-        { name: 'Tuberculosis - Extra Pulmonary', value: 20 },
-        { name: 'Cholera', value: 21 },
-        { name: 'Malaria - Falciparum', value: 22 },
-        { name: 'Typhoid - Salmonella Typhi', value: 23 },
-        { name: 'Dengue Fever', value: 24 },
-        { name: 'Malaria - Malariae', value: 25 },
-        { name: 'Typhoid - Paratyphoid', value: 26 },
-        { name: 'Dengue Haemorrhagic Fever', value: 27 },
-        { name: 'Malaria - Others', value: 28 },
-        { name: 'Viral Encephalitis Japanese', value: 29 },
-        { name: 'Diphtheria', value: 30 },
-        { name: 'Measles', value: 31 },
-        { name: 'Viral Encephalitis Nipah', value: 32 },
-        { name: 'Dysentery', value: 33 },
-        { name: 'Plague', value: 34 },
-        { name: 'Viral Encephalitis (Others)', value: 35 },
-        { name: 'Ebola', value: 36 },
-        { name: 'Rabies', value: 37 },
-        { name: 'Whooping Cough / Pertussis', value: 38 },
-        { name: 'Food Poisoning', value: 39 },
-        { name: 'Relapsing Fever', value: 40 },
-        { name: 'Yellow Fever', value: 41 },
-        { name: 'Gonorrhoea', value: 42 },
-        { name: 'Syphilis - Congenital', value: 43 },
-        { name: 'Others', value: 44 }
-]
 
 /* ================
     CORE FUNCTIONS
@@ -1237,6 +1251,44 @@ function drawQRCode(val) {
 }
 
 
+function getAge (dob) {
+      if (dob === '') { return '' }
+
+      let diffMs = (new Date) - (new Date(dob))
+      // Day
+      const diff = diffMs / 1000
+      const diffDay = diff / (60 * 60 * 24)
+      const ageDay = Math.abs(Math.round(diffDay))
+      if (ageDay === 1) {
+        return ageDay.toString() 
+      }
+      if (ageDay <= 30) {
+        return ageDay.toString() 
+      }
+      // Month
+      const diffMonth = diffDay / (7 * 4)
+      const ageMonth = Math.abs(Math.round(diffMonth))
+      if (ageMonth === 1) {
+        return ageMonth.toString() 
+      }
+      if (ageMonth <= 12) {
+        return ageMonth.toString() 
+      }
+      // Year
+      let currentYear = (new Date()).toISOString().substring(0, 4)
+      diffMs = (new Date(currentYear + '-12-31')) - new Date(dob)
+      const ageDt = new Date(diffMs)
+      const ageYear = Math.abs(ageDt.getUTCFullYear() - 1970)
+      if (ageYear === 1) {
+        return ageYear.toString() 
+      }
+      return ageYear.toString() 
+}
+
+function setAge () {
+        let dob = document.getElementById("dob").value         
+        document.getElementById("age").value = getAge(dob)
+}
 
 function processForm() {
         // var doc = new jsPDF()
@@ -1673,6 +1725,7 @@ function processForm() {
         // let address = document.querySelector('input[name="address"]:checked').value;
         
         /* CHECK DIAG - OTHERS */
+        let disease = document.getElementById("diseases").value
         let diagnosis = document.getElementById("diagnosis").value
         
         let carapengesanan = document.querySelector('input[name="carapengesanan"]:checked').value;
@@ -1722,8 +1775,11 @@ function processForm() {
         checkTelBimbit()
         setTelNumber(tel)
         setAlamatKediaman(address)
-        checkDisease(44)
-        setOtherDisease('Saringan COVID-19')
+        // checkDisease(44)
+        checkDisease(parseInt(disease))
+        if (disease==='44') {
+                setOtherDisease(diagnosis)
+        }
         checkKes()
         // checkUjianSaringan()
         // setUjianSaringan('RTK-Ag')
@@ -1752,18 +1808,20 @@ function processForm() {
         setNamaHospKlinik(clinichospname)
         setTarikhNotifikasi(notifydt)
 
-        let doktorDetails = doctorname.toUpperCase() +'\n' +
-                            'MPM: ' + mpm + '\n' +
-                            clinichospname.toUpperCase()
-        setTandatangan(doktorDetails)
-        
-        let c = document.createElement("CANVAS")
-        doktorDetails += '\n' + 'Notify: ' + notifydt
-        QRCode.toCanvas(c, doktorDetails, function (error) {
-            if (error) console.error(error)
-            console.log('success!');
-        })        
-        drawQRCode(c)
+        if (doctorname) {        
+                let doktorDetails = doctorname.toUpperCase() +'\n' +
+                                'MPM: ' + mpm + '\n' +
+                                clinichospname.toUpperCase()
+                setTandatangan(doktorDetails)
+                
+                let c = document.createElement("CANVAS")
+                doktorDetails += '\n' + 'Notify: ' + notifydt
+                QRCode.toCanvas(c, doktorDetails, function (error) {
+                if (error) console.error(error)
+                console.log('success!');
+                })        
+                drawQRCode(c)
+        }
 
         let brgname = 
                 notifydt +' - ' +
@@ -1784,6 +1842,14 @@ function isWN() {
 function isBWN() {
   document.getElementById("wn").style.display = "none";
   document.getElementById("bwn").style.display = "block";
+}
+
+function toggleDiseases() {
+  if (document.getElementById("diseases").value==='44') {
+        document.getElementById("diagOthers").style.display = "block";
+  } else {
+        document.getElementById("diagOthers").style.display = "none";
+  }
 }
 
 function exportXlsx (name, id, tel, address) {
@@ -1821,7 +1887,7 @@ function exportXlsx (name, id, tel, address) {
         ]
         ws['!cols'] = wscols
         const wb = XLSX.utils.book_new()
-        const wbName = todayDt + '-Saringan-' + name + '.xlsx'
+        const wbName = todayDt + '-Saringan-' + name.toUpperCase() + '.xlsx'
         XLSX.utils.book_append_sheet(wb, ws, 'saringan') // TODO: to append filter criteria to sheet name
         /* generate file and send to client */
         XLSX.writeFile(wb, wbName)
