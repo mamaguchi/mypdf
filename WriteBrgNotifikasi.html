@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head>   
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script> 
   <script src="doctorinfo.js"></script>  
   <script src="qrcode.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
@@ -39,10 +40,10 @@
     <div class="content">
 
     <label for="name"><b>Nama</b></label><br>
-    <input autofocus type="text" id="name" name="name" required><br><br>
+    <input autofocus type="text" id="name" name="name" ><br><br>
 
     <label for="id"><b>IC/Passport</b></label><br>
-    <input type="text" id="id" name="id" required><br><br>
+    <input type="text" id="id" name="id" ><br><br>
 
     <hr>
     <!-- /* CHECK SENDIRI/PENGIRING  -->
@@ -53,7 +54,7 @@
 
     <div id="wn">
     <label for="keturunan">Keturunan</label><br>
-    <input type="text" id="keturunan" name="keturunan" required><br><br>
+    <input type="text" id="keturunan" name="keturunan" ><br><br>
     </div>
 
     <div id="bwn">
@@ -73,27 +74,27 @@
 
     <label for="dob"><b>Tarikh Lahir (tahun-bulan-hari)</b></label><br>
     <label for="dob">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="dob" name="dob" required><br><br>
+    <input type="text" id="dob" name="dob" ><br><br>
 
     <label for="age"><b>Umur</b></label><br>
-    <input type="text" id="age" name="age" required><br><br>
+    <input type="text" id="age" name="age" ><br><br>
 
     <label for="job"><b>Pekerjaan</b></label><br>
-    <input type="text" id="job" name="job" required><br><br>
+    <input type="text" id="job" name="job" ><br><br>
 
     <!-- /* CHECK TEL BIMBIT -->
 
     <label for="tel"><b>Telefon</b></label><br>
-    <input type="text" id="tel" name="tel" required><br><br>
+    <input type="text" id="tel" name="tel" ><br><br>
 
     <label for="asd"><b>Alamat</b></label><br>
-    <textarea name="address"  id="address" form="form" rows="4" cols="20" required></textarea><br><br>
+    <textarea name="address"  id="address" form="form" rows="4" cols="20" ></textarea><br><br>
 
     <hr>
     <!-- /* CHECK DIAG - OTHERS  -->
 
     <label for="diagnosis"><b>Diagnosis</b></label><br>
-    <input type="text" id="diagnosis" name="diagnosis" value="Saringan COVID-19" required><br><br>
+    <input type="text" id="diagnosis" name="diagnosis" value="Saringan COVID-19" ><br><br>
 
     <label for="carapengesanan"><b>Cara Pengesanan Kes</b></label><br>
     <input type="radio" id="kes" checked="checked"  value="kes" name="carapengesanan">Kes<br>
@@ -106,16 +107,16 @@
 
     <label for="onset"><b>Tarikh Onset (tahun-bulan-hari)</b></label><br>
     <label for="onset">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="onset" name="onset" required><br><br>
+    <input type="text" id="onset" name="onset" ><br><br>
 
     <hr>
 
     <label for="test"><b>Ujian Makmal</b></label><br>
-    <input type="text" id="test" name="test" value="RT-PCR" required><br><br>
+    <input type="text" id="test" name="test" value="RT-PCR" ><br><br>
 
     <label for="nama"><b>Tarikh Sampel Diambil (tahun-bulan-hari)</b></label><br>
     <label for="nama">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="samplingdt" name="samplingdt" required><br><br>
+    <input type="text" id="samplingdt" name="samplingdt" ><br><br>
 
     <label for="testresult"><b>Keputusan Ujian Makmal</b></label><br>
     <input type="radio" id="positive"  value="positive" name="testresult">Positif<br>
@@ -130,25 +131,25 @@
     
     <label for="nama"><b>Tarikh Diagnosis (tahun-bulan-hari)</b></label><br>
     <label for="nama">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="diagnosisdt" name="diagnosisdt" required><br><br>
+    <input type="text" id="diagnosisdt" name="diagnosisdt" ><br><br>
 
     <label for="nama"><b>Maklumat Klinikal</b></label><br>
-    <textarea name="clinicalinfo"  id="clinicalinfo" form="form" rows="5" cols="20" required></textarea><br><br>
+    <textarea name="clinicalinfo"  id="clinicalinfo" form="form" rows="5" cols="20" ></textarea><br><br>
 
     <hr>
 
     <label for="nama"><b>Nama Doktor</b></label><br>
-    <input type="text" id="doctorname" name="doctorname" required><br><br>
+    <input type="text" id="doctorname" name="doctorname" ><br><br>
 
     <label for="mpm"><b>Nombor MPM Doktor</b></label><br>
-    <input type="text" id="mpm" name="mpm" required><br><br>
+    <input type="text" id="mpm" name="mpm" ><br><br>
 
     <label for="nama"><b>Nama Klinik/Hosp</b></label><br>
-    <input type="text" id="clinichospname" name="clinichospname" required><br><br>
+    <input type="text" id="clinichospname" name="clinichospname" ><br><br>
 
     <label for="nama"><b>Tarikh Notifikasi (tahun-bulan-hari)</b></label><br>
     <label for="nama">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="notifydt" name="notifydt" required><br><br><br>    
+    <input type="text" id="notifydt" name="notifydt" ><br><br><br>    
     </div>
 
     <div class="container">
@@ -584,7 +585,7 @@ let diseasesIndex = [
     CORE FUNCTIONS
    ================ */
 
-   function createBox(startX, startY, numRow, cellsPerRow, 
+function createBox(startX, startY, numRow, cellsPerRow, 
         width, height) {
     for (let i=0; i<numRow; i++) {
         let rectY = startY + (i * height)
@@ -674,6 +675,7 @@ function rect(rectX, rectY, width, height, fillYellow) {
    =========== */
 
 function setNama(val) {
+    if (!val) { return }
     textBox(NAMA_X, NAMA_Y, NAMA_NUMOFROW, NAMA_BOXPERROW,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
             SMALL_BOX_TEXT_INSET_X, SMALL_BOX_TEXT_INSET_Y,
@@ -681,6 +683,7 @@ function setNama(val) {
 }
 
 function setNamaPengiring(val) {
+    if (!val) { return }
     textBox(NAMA_PENGIRING_X, NAMA_PENGIRING_Y, 
             NAMA_PENGIRING_NUMOFROW, NAMA_PENGIRING_BOXPERROW,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -689,6 +692,7 @@ function setNamaPengiring(val) {
 }
 
 function setID(val) {
+    if (!val) { return }        
     textBox(ID_X, ID_Y, 
             ID_NUMOFROW, ID_BOXPERROW,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -713,6 +717,7 @@ function checkIDPengiring() {
 }
 
 function setNoDaftarHospKlinik(val) {
+    if (!val) { return }
     textBox(NO_DAFTAR_HOSP_KLINIK_X, NO_DAFTAR_HOSP_KLINIK_Y, 
             NO_DAFTAR_HOSP_KLINIK_NUMOFROW, NO_DAFTAR_HOSP_KLINIK_BOXPERROW,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -721,12 +726,14 @@ function setNoDaftarHospKlinik(val) {
 }
 
 function setNamaWad(val) {
+    if (!val) { return }
     let txt = val.slice(0, 12).toUpperCase()
     let textX = WAD_X + 13.5
     text(textX, WAD_Y, txt, "helvetica", "bold", 6.9)
 }
 
 function setTarikhAdm(val) {
+    if (!val) { return }
     let date = val.split("-")
     textBox(TARIKH_ADM_DAY_X, TARIKH_ADM_DAY_Y, 
             TARIKH_ADM_DAY_NUMOFROW, TARIKH_ADM_DAY_BOXPERROW,
@@ -764,6 +771,7 @@ function checkWarganegaraTidak() {
 }
 
 function setKeturunan(val) {
+    if (!val) { return }
     textBox(KETURUNAN_X, KETURUNAN_Y, 
             KETURUNAN_NUMOFROW, KETURUNAN_BOXPERROW, 
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -772,6 +780,7 @@ function setKeturunan(val) {
 }
 
 function setSukuketurunan(val) {
+    if (!val) { return }
     textBox(SUKUKETURUNAN_X, SUKUKETURUNAN_Y, 
             SUKUKETURUNAN_NUMOFROW, SUKUKETURUNAN_BOXPERROW,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -780,6 +789,7 @@ function setSukuketurunan(val) {
 }
 
 function setNegaraAsal(val) {
+    if (!val) { return }
     textBox(NEGARA_ASAL_X, NEGARA_ASAL_Y, 
             NEGARA_ASAL_NUMOFROW, NEGARA_ASAL_BOXPERROW,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -828,6 +838,7 @@ function checkJantinaPerempuan() {
 }
 
 function setTarikhLahir(val) {
+    if (!val) { return }
     let date = val.split("-")
     textBox(TARIKH_LAHIR_DAY_X, TARIKH_LAHIR_DAY_Y, 
             TARIKH_LAHIR_DAY_NUMOFROW, TARIKH_LAHIR_DAY_BOXPERROW,
@@ -849,6 +860,7 @@ function setTarikhLahir(val) {
 }
 
 function setUmur(val) {
+    if (!val) { return }
     textBox(UMUR_X, UMUR_Y, 
             UMUR_NUMOFROW, UMUR_BOXPERROW,
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -889,6 +901,7 @@ function checkTelRumah() {
 }
 
 function setPekerjaan(val) {
+    if (!val) { return }
     let txt = val.slice(0, 30).toUpperCase()
     let textX = PEKERJAAN_X + 15
     text(textX, PEKERJAAN_Y, txt, "helvetica", "bold", 6.9)
@@ -911,6 +924,7 @@ function checkTelPejabat() {
 }
 
 function setTelNumber(val) {
+    if (!val) { return }
     textBox(TEL_NUMBER_X, TEL_NUMBER_Y, 
             TEL_NUMBER_NUMOFROW, TEL_NUMBER_BOXPERROW, 
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -919,6 +933,7 @@ function setTelNumber(val) {
 }
 
 function setAlamatKediaman(val) {
+    if (!val) { return }
     text2CharIn1Box(ALAMAT_KEDIAMAN1_X, ALAMAT_KEDIAMAN1_Y, 
             ALAMAT_KEDIAMAN1_NUMOFROW, ALAMAT_KEDIAMAN1_BOXPERROW, 
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -934,6 +949,7 @@ function setAlamatKediaman(val) {
 }
 
 function setAlamatPejabat(val) {
+    if (!val) { return }
     text2CharIn1Box(ALAMAT_PEJABAT_X, ALAMAT_PEJABAT_Y, 
             ALAMAT_PEJABAT_NUMOFROW, ALAMAT_PEJABAT_BOXPERROW, 
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -955,6 +971,7 @@ function checkDisease(index) {
 }
 
 function setOtherDisease(val) {
+    if (!val) { return }
     let txt = val.slice(0, 18).toUpperCase()
     let textX = OTHER_DISEASE_X + 29
     text(textX, OTHER_DISEASE_Y, txt, "helvetica", "bold", 6.9)
@@ -993,6 +1010,7 @@ function checkUjianSaringan() {
 }
 
 function setUjianSaringan(val) {
+    if (!val) { return }
     let txt = val.slice(0, 15).toUpperCase()
     let textX = UJIAN_SARINGAN_NAME_X + 17
     text(textX, UJIAN_SARINGAN_NAME_Y, txt, "helvetica", "bold", 6.9)
@@ -1015,6 +1033,7 @@ function checkStatusMati() {
 }
 
 function setTarikhMati(val) {
+    if (!val) { return }
     let date = val.split("-")
     textBox(TARIKH_MATI_DAY_X, TARIKH_MATI_DAY_Y, 
             TARIKH_MATI_DAY_NUMOFROW, TARIKH_MATI_DAY_BOXPERROW,
@@ -1036,6 +1055,7 @@ function setTarikhMati(val) {
 }
 
 function setTarikhOnset(val) {
+    if (!val) { return }
     let date = val.split("-")
     textBox(TARIKH_ONSET_DAY_X, TARIKH_ONSET_DAY_Y, 
             TARIKH_ONSET_DAY_NUMOFROW, TARIKH_ONSET_DAY_BOXPERROW, 
@@ -1057,12 +1077,14 @@ function setTarikhOnset(val) {
 }
 
 function setUjianMakmal(val) {
+    if (!val) { return }
     let txt = val.slice(0, 15).toUpperCase()
     let textX = UJIAN_MAKMAL_NAME_X + 17
     text(textX, UJIAN_MAKMAL_NAME_Y, txt, "helvetica", "bold", 6.9)
 }
 
 function setTarikhSampling(val) {
+    if (!val) { return }
     let date = val.split("-")
     textBox(TARIKH_SAMPLING_DAY_X, TARIKH_SAMPLING_DAY_Y, 
             TARIKH_SAMPLING_DAY_NUMOFROW, TARIKH_SAMPLING_DAY_BOXPERROW,  
@@ -1124,6 +1146,7 @@ function checkDiagDisahkan() {
 }
 
 function setTarikhDiag(val) {
+    if (!val) { return }
     let date = val.split("-")
     textBox(TARIKH_DIAG_DAY_X, TARIKH_DIAG_DAY_Y, 
             TARIKH_DIAG_DAY_NUMOFROW, TARIKH_DIAG_DAY_BOXPERROW,
@@ -1145,6 +1168,7 @@ function setTarikhDiag(val) {
 }
 
 function setMaklumatKlinikal(val) {
+    if (!val) { return }
     textLargeBox(MAKLUMAT_KLINIKAL_X, MAKLUMAT_KLINIKAL_Y,
             SMALL_BOX_WIDTH,  
             LARGE_BOX_WIDTH, LARGE_BOX_HEIGHT,
@@ -1153,6 +1177,7 @@ function setMaklumatKlinikal(val) {
 }
 
 function setKomen(val) {
+    if (!val) { return }
     textLargeBox(KOMEN_X, KOMEN_Y, 
             SMALL_BOX_WIDTH,  
             MEDIUM_BOX_WIDTH, MEDIUM_BOX_HEIGHT,
@@ -1161,6 +1186,7 @@ function setKomen(val) {
 }
 
 function setNamaOfficer(val) {
+    if (!val) { return }
     textBox(NAMA_OFFICER_X, NAMA_OFFICER_Y, 
             NAMA_OFFICER_NUMOFROW, NAMA_OFFICER_BOXPERROW, 
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -1169,6 +1195,7 @@ function setNamaOfficer(val) {
 }
 
 function setNamaHospKlinik(val) {
+    if (!val) { return }
     textBox(NAMA_HOSP_KLINIK_X, NAMA_HOSP_KLINIK_Y, 
             NAMA_HOSP_KLINIK_NUMOFROW, NAMA_HOSP_KLINIK_BOXPERROW,  
             SMALL_BOX_WIDTH, SMALL_BOX_HEIGHT,
@@ -1177,6 +1204,7 @@ function setNamaHospKlinik(val) {
 }
 
 function setTarikhNotifikasi(val) {
+    if (!val) { return }
     let date = val.split("-")
     textBox(TARIKH_NOTIFIKASI_DAY_X, TARIKH_NOTIFIKASI_DAY_Y, 
             TARIKH_NOTIFIKASI_DAY_NUMOFROW, TARIKH_NOTIFIKASI_DAY_BOXPERROW, 
@@ -1198,6 +1226,7 @@ function setTarikhNotifikasi(val) {
 }
 
 function setTandatangan(val) {
+    if (!val) { return }
     const textX = TANDATANGAN_X 
     text(textX, TANDATANGAN_Y, val, "helvetica", "bold", 6.9)
 }
@@ -1741,7 +1770,10 @@ function processForm() {
                 'Borang Notifikasi' +' - ' +
                 ptname.toUpperCase() +' - ' +
                 clinichospname.toUpperCase()    
-        doc.save(brgname +".pdf")        
+        doc.save(brgname +".pdf")      
+        
+        // Export patient details to xlsx
+        exportXlsx(ptname, id, tel, address)
 }
 
 function isWN() {
@@ -1752,6 +1784,47 @@ function isWN() {
 function isBWN() {
   document.getElementById("wn").style.display = "none";
   document.getElementById("bwn").style.display = "block";
+}
+
+function exportXlsx (name, id, tel, address) {
+        const data = []
+        // const header = ['Nama', 'IC/Passport']
+        // data.push(header)
+        if (!name || !id || !address) { return }        
+        
+        data.push([' ', name.toUpperCase(), id, ' ', ' ', tel, address.toUpperCase()])
+
+        const ws = XLSX.utils.aoa_to_sheet(data)
+        // const wscols = [
+        //         { wch: 4 }, // No
+        //         { wch: 30 }, // Name
+        //         { wch: 20 }, // Covid status
+        //         { wch: 14 }, // Covid vac.
+        //         { wch: 8 }, // Dose req.
+        //         { wch: 10 }, // Dose taken
+        //         { wch: 12 }, // Ic/passport
+        //         { wch: 8 }, // Age
+        //         { wch: 8 }, // Race
+        //         { wch: 12 }, // Nationality
+        //         { wch: 10 }, // State
+        //         { wch: 10 }, // District
+        //         { wch: 12 } // Locality/Taman
+        // ]
+        const wscols = [
+                { wch: 4 },  // No
+                { wch: 30 }, // Name
+                { wch: 12 }, // Ic/passport
+                { wch: 12 }, // KK Yang Ambil Sampel
+                { wch: 12 }, // Sampel ke Makmal?
+                { wch: 12 }, // Tel
+                { wch: 30 }  // Address                
+        ]
+        ws['!cols'] = wscols
+        const wb = XLSX.utils.book_new()
+        const wbName = todayDt + '-Saringan-' + name + '.xlsx'
+        XLSX.utils.book_append_sheet(wb, ws, 'saringan') // TODO: to append filter criteria to sheet name
+        /* generate file and send to client */
+        XLSX.writeFile(wb, wbName)
 }
 
 function testQR () {
