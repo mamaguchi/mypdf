@@ -41,14 +41,14 @@
     <div class="content">
 
     <label for="name"><b>Nama</b></label><br>
-    <input autofocus type="text" id="name" name="name" ><br><br>
+    <input autofocus type="text" id="name" name="name" required><br><br>
 
     <label for="id"><b>IC/Passport</b></label><br>
-    <input oninput="setDobAndAge()" type="text" id="id" name="id" ><br><br>
+    <input oninput="setDob()" type="text" id="id" name="id" required><br><br>
 
     <label for="dob"><b>Tarikh Lahir</b> (tahun-bulan-hari)</label><br>
     <label for="dob">Contoh: '1957-08-31'</label><br>
-    <input type="text" id="dob" name="dob" ><br><br>
+    <input oninput="setAge()" type="text" id="dob" name="dob" ><br><br>
 
     <label for="age"><b>Umur</b></label><br>
     <input type="text" id="age" name="age" ><br><br>
@@ -81,15 +81,15 @@
     <input type="radio" id="perempuan" value="perempuan" name="jantina">Perempuan<br><br>
    
     <label for="job"><b>Pekerjaan</b></label><br>
-    <input type="text" id="job" name="job" ><br><br>
+    <input type="text" id="job" name="job" required><br><br>
 
     <!-- /* CHECK TEL BIMBIT -->
 
     <label for="tel"><b>Telefon</b></label><br>
-    <input type="text" id="tel" name="tel" ><br><br>
+    <input type="text" id="tel" name="tel" required><br><br>
 
     <label for="asd"><b>Alamat</b></label><br>
-    <textarea name="address"  id="address" form="form" rows="4" cols="20" ></textarea><br><br>
+    <textarea name="address"  id="address" form="form" rows="4" cols="20" required></textarea><br><br>
 
     <hr>
     <!-- /* CHECK DIAG - OTHERS  -->
@@ -139,7 +139,7 @@
     <input type="text" id="diagnosisdt" name="diagnosisdt" ><br><br>
 
     <label for="nama"><b>Maklumat Klinikal</b></label><br>
-    <textarea name="clinicalinfo"  id="clinicalinfo" form="form" rows="5" cols="20" ></textarea><br><br>
+    <textarea name="clinicalinfo"  id="clinicalinfo" form="form" rows="5" cols="20" required></textarea><br><br>
 
     <hr>
 
@@ -1303,7 +1303,7 @@ function getAge (dob) {
       return ageYear.toString() + ' tahun' 
 }
 
-function setDobAndAge () {
+function setDob () {
         // let dob = document.getElementById("dob").value  
         document.getElementById("dob").value = ''  
         document.getElementById("age").value = ''       
@@ -1312,6 +1312,13 @@ function setDobAndAge () {
         let dob = getDobFromIC(id)  
         if (!dob) { return } 
         document.getElementById("dob").value = dob  
+        document.getElementById("age").value = getAge(dob)
+}
+
+function setAge () {
+        document.getElementById("age").value = ''       
+        let dob = document.getElementById("dob").value            
+        if (!dob) { return } 
         document.getElementById("age").value = getAge(dob)
 }
 
